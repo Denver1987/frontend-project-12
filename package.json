@@ -4,7 +4,10 @@
   "description": "Учебный проект hexlet \"Чат (Slack)\"",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "build": "npm run build --prefix frontend",
+    "start": "start-server -s ./frontend/dist -p 5101",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd frontend && npm ci"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Denver1987/frontend-project-12/issues"
   },
-  "homepage": "https://github.com/Denver1987/frontend-project-12#readme"
+  "homepage": "https://github.com/Denver1987/frontend-project-12#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^2.0.4"
+  }
 }

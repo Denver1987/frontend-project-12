@@ -1,19 +1,18 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react()],  
   server: {
-    port: 5104,
+    port: 5002,
     proxy: {
       // Проксируем запросы к API
       '/api': {
-        target: 'http://localhost:5101',
+        target: 'http://127.0.0.1:5001',
       },
       // Проксируем WebSocket соединения
       '/socket.io': {
-        target: 'ws://localhost:5101',
+        target: 'ws://127.0.0.1:5001',
         ws: true,
         rewriteWsOrigin: true,
       },

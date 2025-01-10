@@ -12,3 +12,6 @@ lint:
 
 dev:
 	npm run dev
+
+serve:
+	npm run serve

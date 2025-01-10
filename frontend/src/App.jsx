@@ -4,7 +4,8 @@ import axios from 'axios';
 import './App.css';
 
 function App() {
-  axios.post('http://localhost:5001/api/v1/signup', { username: 'user1', password: '123456' }).then((response) => {
+  const axios1 = axios.create({baseURL: 'http://127.0.0.1:5101/',});
+  axios1.post('api/v1/login', { username: 'admin', password: 'admin' }).then((response) => {
     console.log(response.data); // => { token: ..., username: 'admin' }
   });
   return (

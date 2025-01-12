@@ -1,18 +1,19 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { PageLogin, Page404 } from './components/Pages';
-import axios from 'axios';
+import { PageLogin, Page404, PageChat } from './components/Pages';
+
+
 import './App.css';
 
+
 function App() {
-  const axios1 = axios.create({baseURL: 'http://127.0.0.1:5101/',});
-  axios1.post('api/v1/login', { username: 'admin', password: 'admin' }).then((response) => {
-    console.log(response.data); // => { token: ..., username: 'admin' }
-  });
+
+  console.log(window.localStorage)
+  
   return (
     <BrowserRouter>
       <Routes>
         <Route path="*" element={<Page404 />} />
-        <Route path="/" element={<PageLogin />} />
+        <Route path="/" element={<PageChat />} />
         <Route path="/login" element={<PageLogin />} />
       </Routes>
     </BrowserRouter>

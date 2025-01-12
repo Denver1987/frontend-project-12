@@ -1,5 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import dns from 'dns'
+
+dns.setDefaultResultOrder('verbatim')
 
 export default defineConfig({
   plugins: [react()],  
@@ -8,16 +11,17 @@ export default defineConfig({
     proxy: {
       // Проксируем запросы к API
       '/api': {
-        target: 'http://127.0.0.1:5101',
-        changeOrigin: true,
+        target: 'http://localhost:5001',
       },
       // Проксируем WebSocket соединения
       '/socket.io': {
-        target: 'ws://127.0.0.1:5101',
+        target: 'ws://localhost:5001',
         ws: true,
         rewriteWsOrigin: true,
       },
     },
+    open: true,
   },
+  
 })
       

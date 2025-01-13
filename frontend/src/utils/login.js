@@ -15,3 +15,7 @@ export const getAuthToken = () => {
 export const getCurrentUser = () => {
   return window.localStorage.currentUser;
 }
+
+export const isAuthenticated = () => {
+  return getAuthToken() !== 'null' && getAuthToken() !== undefined;
+}

@@ -1,9 +1,10 @@
 import { Formik, Form, Field } from 'formik';
 //import * as yup from 'yup';
 import axios from 'axios';
-import { authorize, getAuthToken, loguot } from '../utils/login.js';
+import { authorize, getAuthToken } from '../utils/login.js';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Nav, Button } from 'react-bootstrap';
+//import { Nav, Button } from 'react-bootstrap';
+import { NavPanel } from './navPanel.jsx';
 
 const BuildPageLogin = () => {
   const navigate = useNavigate();
@@ -12,11 +13,7 @@ const BuildPageLogin = () => {
   }
   return (
     <>
-      <Nav defaultActiveKey="/home" as="ul">
-      <Nav.Item as="li">
-        <Nav.Link href="/home">Active</Nav.Link>
-      </Nav.Item>
-    </Nav>
+      <NavPanel></NavPanel>
       <Formik
         initialValues={{
           username: "",
@@ -63,6 +60,7 @@ const BuildPageLogin = () => {
         </Form>
       )}
       </Formik>
+      
     </>
   );
 }
@@ -74,23 +72,12 @@ const BuildNotExistPage = () => (
 );
 
 const BuildChatPage = () => {
-  const navigate = useNavigate();
   if (getAuthToken() === 'null' || undefined) {
     return <Navigate to="/login" />
   } else {
     return (
       <>
-        <Nav defaultActiveKey="/home" as="ul">
-          <Nav.Item as="li">
-            <Nav.Link href="/home">Active</Nav.Link>
-          </Nav.Item>
-          <Button variant="primary" onClick={
-            () => {
-              loguot();
-              navigate('/login');
-            }
-          }>Выйти</Button>
-        </Nav>
+        <NavPanel></NavPanel>
         <h1>Добро пожаловать в Чат</h1>
       </>
   );

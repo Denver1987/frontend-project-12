@@ -4,7 +4,8 @@ import axios from 'axios';
 import { authorize, getAuthToken } from '../utils/login.js';
 import { Navigate, useNavigate } from 'react-router-dom';
 //import { Nav, Button } from 'react-bootstrap';
-import { NavPanel } from './navPanel.jsx';
+import { NavPanel } from '../components/navPanel.jsx';
+import { Nav } from 'react-bootstrap';
 
 const BuildPageLogin = () => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ const BuildPageLogin = () => {
       {() => (
         <Form>
           <div className="form-group">
-            <label htmlFor="email">username</label>
+            <label htmlFor="username">username</label>
             <Field
               type="text"
               name="username"
@@ -60,7 +61,7 @@ const BuildPageLogin = () => {
         </Form>
       )}
       </Formik>
-      
+      <p>Нет аккаунта? <Nav.Link href="/register">Регистрация</Nav.Link></p>
     </>
   );
 }

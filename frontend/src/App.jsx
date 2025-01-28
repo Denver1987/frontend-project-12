@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { PageLogin, Page404, PageChat } from './pages/Pages';
+import { PageLogin } from './pages/Login.jsx';
 import { PageRegister } from './pages/Register.jsx';
+import { PageChat } from './pages/Chat.jsx';
+import { Page404 } from './pages/Page404.jsx';
 
 
 import './App.css';
@@ -9,7 +11,7 @@ import './App.css';
 function App() {
 
   console.log(window.localStorage)
-  
+
   return (
     <BrowserRouter>
       <Routes>

@@ -65,29 +65,5 @@ const BuildPageLogin = () => {
     </>
   );
 }
-
-const BuildNotExistPage = () => (
-  <>
-    <h1>Нет такой страницы</h1>
-  </>
-);
-
-const BuildChatPage = () => {
-  if (getAuthToken() === 'null' || undefined) {
-    return <Navigate to="/login" />
-  } else {
-    return (
-      <>
-        <NavPanel></NavPanel>
-        <h1>Добро пожаловать в Чат</h1>
-      </>
-  );
-  }
   
-}
-
-
-  
-  export const PageLogin = () => BuildPageLogin();
-  export const Page404 = () => BuildNotExistPage();
-  export const PageChat = () => BuildChatPage();
+export const PageLogin = () => BuildPageLogin();

@@ -1,69 +1,31 @@
-import { Formik, Form, Field } from 'formik';
+
 //import * as yup from 'yup';
-import axios from 'axios';
-import { authorize, getAuthToken } from '../utils/login.js';
-import { Navigate, useNavigate } from 'react-router-dom';
+
+import { getAuthToken } from '../utils/login.js';
+import { Navigate } from 'react-router-dom';
 //import { Nav, Button } from 'react-bootstrap';
 import { NavPanel } from '../components/navPanel.jsx';
-import { Nav } from 'react-bootstrap';
+import { Nav, Container } from 'react-bootstrap';
+import { LoginForm } from '../components/LoginForm.jsx';
 
 const BuildPageLogin = () => {
-  const navigate = useNavigate();
   if (getAuthToken() !== 'null' || undefined) {
     return <Navigate to="/" />
   }
   return (
-    <>
+    <div className="d-flex flex-column h-100">
       <NavPanel></NavPanel>
-      <Formik
-        initialValues={{
-          username: "",
-          password: ""
-        }}
-        onSubmit={
-          ({ username, password }, { setSubmitting }) => {
-            axios.post('api/v1/login', { username: username, password: password}).then((response) => {
-              console.log(response.data);
-              authorize(response.data);
-              navigate('/');
-            }).then(() => {
-              axios.get('/api/v1/channels', { 
-              headers: {
-                Authorization: `Bearer ${getAuthToken()}`,
-              },
-            }).then((response) => {
-              console.log(response.data); 
-            });
-            });          
-            setSubmitting(false);
-            }
-        }
-      >        
-      {() => (
-        <Form>
-          <div className="form-group">
-            <label htmlFor="username">username</label>
-            <Field
-              type="text"
-              name="username"
-              className="form-control"
-            />
+      <Container className="h-100">
+        <div className="row justify-content-center align-content-center h-100">
+          <div className="col-md-8">
+            <LoginForm />
+            <p>Нет аккаунта? <Nav.Link href="/register">Регистрация</Nav.Link></p>
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <Field
-              type="password"
-              name="password"
-              className="form-control"
-            />        
-          </div>
-          <button type="submit">Войти</button>
-        </Form>
-      )}
-      </Formik>
-      <p>Нет аккаунта? <Nav.Link href="/register">Регистрация</Nav.Link></p>
-    </>
+        </div>
+      </Container>
+
+    </div>
   );
 }
-  
+
 export const PageLogin = () => BuildPageLogin();

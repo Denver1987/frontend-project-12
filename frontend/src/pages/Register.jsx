@@ -1,50 +1,21 @@
 import { NavPanel } from "../components/navPanel.jsx";
-import { Formik, Form, Field } from 'formik';
+import { Container } from "react-bootstrap";
+import { RegistrationForm } from "../components/RegistrationForm.jsx";
 //import * as yup from 'yup';
-import axios from 'axios';
+
 
 const BuildPageRegister = () => {
     return (
-        <>
+      <div className="d-flex flex-column h-100">
           <NavPanel></NavPanel>
-
-          <Formik
-            initialValues={{
-            username: "",
-            password: "",
-            repeatPassword: ""
-          }}>
-          {() => (
-          <Form>
-            <div className="form-group">
-              <label htmlFor="username">username</label>
-              <Field
-                type="text"
-                name="username"
-                className="form-control"
-              />
+          <Container fluid className="h-100">
+            <div className="row justify-content-center align-content-center h-100">
+              <div className="col-md-8">
+                <RegistrationForm />
+              </div>
             </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <Field
-                type="password"
-                name="password"
-                className="form-control"
-              />        
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Repeat Password</label>
-              <Field
-                type="password"
-                name="password"
-                className="form-control"
-              />        
-            </div>
-            <button type="submit">Зарегистрироваться</button>
-          </Form>
-          )}
-          </Formik>
-        </>
+          </Container>
+        </div>
       );
 }
 

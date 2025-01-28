@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const BuildNavPanel = () => {
   const navigate = useNavigate();
-  return <Nav as="nav" className="navbar navbar-expand-lg">
+  return <Nav as="nav" className="navbar navbar-expand-lg shadow-sm navbar-light bg-white">
     <Container>
       <Nav.Item as="div">
         <Nav.Link href="/">Hexlet Chat</Nav.Link>

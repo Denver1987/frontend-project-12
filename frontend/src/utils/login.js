@@ -4,8 +4,8 @@ export const authorize = ({ token, username }) => {
 }
 
 export const loguot = () => {
-  window.localStorage.authToken = null;
-  window.localStorage.currentUser = null;
+  delete window.localStorage.authToken;
+  delete window.localStorage.currentUser;
 }
 
 export const getAuthToken = () => {
@@ -17,5 +17,5 @@ export const getCurrentUser = () => {
 }
 
 export const isAuthenticated = () => {
-  return getAuthToken() !== 'null' && getAuthToken() !== undefined;
+  return getAuthToken() !== undefined;
 }

@@ -2,10 +2,18 @@ import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
 import { authorize, getAuthToken } from '../utils/login.js';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAuthData } from '../store/slices/auth.js';
+//import * as yup from 'yup';
 
-const buildLoginForm = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+// const validationScheme = yup.object().shape({
+//   username: yup.string(),
+//   password: yup.string(),
+// });
+
+const BuildLoginForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   return <Formik
     initialValues={{
       username: "",
@@ -17,14 +25,7 @@ const buildLoginForm = () => {
           console.log(response.data);
           authorize(response.data);
           navigate('/');
-        }).then(() => {
-          axios.get('/api/v1/channels', {
-          headers: {
-            Authorization: `Bearer ${getAuthToken()}`,
-          },
-        }).then((response) => {
-          console.log(response.data);
-        });
+          dispatch(fetchAuthData(username, password))
         });
         setSubmitting(false);
         }
@@ -56,4 +57,4 @@ const buildLoginForm = () => {
     </Formik>
 }
 
-export const LoginForm = () => buildLoginForm();
+export const LoginForm = () => BuildLoginForm();

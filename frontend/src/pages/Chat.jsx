@@ -6,7 +6,7 @@ import { NavPanel } from '../components/navPanel.jsx';
 import { ChatWindow } from '../components/chatWindow.jsx';
 
 const BuildChatPage = () => {
-  if (getAuthToken() === 'null' || undefined) {
+  if (getAuthToken() === undefined) {
     return <Navigate to="/login" />
   } else {
     return (

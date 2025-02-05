@@ -1,15 +1,11 @@
-
-//import * as yup from 'yup';
-
 import { getAuthToken } from '../utils/login.js';
 import { Navigate } from 'react-router-dom';
-//import { Nav, Button } from 'react-bootstrap';
 import { NavPanel } from '../components/navPanel.jsx';
 import { Nav, Container } from 'react-bootstrap';
 import { LoginForm } from '../components/LoginForm.jsx';
 
 const BuildPageLogin = () => {
-  if (getAuthToken() !== 'null' || undefined) {
+  if (getAuthToken() !== undefined) {
     return <Navigate to="/" />
   }
   return (
@@ -23,7 +19,6 @@ const BuildPageLogin = () => {
           </div>
         </div>
       </Container>
-
     </div>
   );
 }

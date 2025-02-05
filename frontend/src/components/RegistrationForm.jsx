@@ -1,4 +1,11 @@
 import { Formik, Form, Field } from 'formik';
+import * as yup from 'yup';
+
+const validationScheme = yup.object().shape({
+  username: yup.string(),
+  password: yup.string(),
+  repeatPassword: yup.string(),
+});
 
 const buildRegistrationForm = () => {
   return <Formik

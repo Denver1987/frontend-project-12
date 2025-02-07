@@ -1,6 +1,7 @@
 import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
-import { authorize, getAuthToken } from '../utils/login.js';
+import { authorize, getAuthToken, isAuthenticated } from '../utils/login.js';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAuthData } from '../store/slices/auth.js';
@@ -13,6 +14,7 @@ import { fetchAuthData } from '../store/slices/auth.js';
 
 const BuildLoginForm = () => {
   const navigate = useNavigate();
+  const authToken = useSelector((state) => state.auth.authToken);
   const dispatch = useDispatch();
   return <Formik
     initialValues={{
@@ -21,12 +23,7 @@ const BuildLoginForm = () => {
     }}
     onSubmit={
       ({ username, password }, { setSubmitting }) => {
-        axios.post('api/v1/login', { username: username, password: password}).then((response) => {
-          console.log(response.data);
-          authorize(response.data);
-          navigate('/');
-          dispatch(fetchAuthData(username, password))
-        });
+        dispatch(fetchAuthData({username, password}))
         setSubmitting(false);
         }
     }

@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getAuthToken, getCurrentUser } from '../../utils/login.js';
+import { authorize, getAuthToken, getCurrentUser } from '../../utils/login.js';
 import axios from 'axios';
 
 export const fetchAuthData = createAsyncThunk(
   'auth/fetchAuthData',
-  async (username, password) => {
+  async ({ username, password }) => {
+    console.log(username, password);
     const response = await axios.post('api/v1/login', { username, password });
-    console.log(response.data);
     return response.data;
   }
 );
@@ -19,9 +19,11 @@ const authSlice = createSlice({
     isAuthFailed: false
   },
   reducers: {
-    getAuthData: ( state, action) => {
-      console.log(state);
-      console.log(action);
+    removeAuthData: (state) => {
+      delete state.authToken;
+      delete state.username;
+      state.isAuthFailed = false;
+      document.dispatchEvent('Loguot');
     }
   },
   extraReducers: (builder) => {
@@ -30,15 +32,18 @@ const authSlice = createSlice({
         console.log('onFetch');
       })
       .addCase(fetchAuthData.fulfilled, (state, action) => {
-        console.log(action, state);
-
+        console.log(action.payload);
+        const { token, username } = action.payload;
+        authorize(action.payload);
+        state.authToken = token;
+        state.username = username;
       })
       .addCase(fetchAuthData.rejected, (state, action) => {
-
+        state.isAuthFailed = true;
       })
   }
 });
 
 export default authSlice.reducer;
 
-export const { getAuthData } = authSlice.actions;
+export const { removeAuthData } = authSlice.actions;

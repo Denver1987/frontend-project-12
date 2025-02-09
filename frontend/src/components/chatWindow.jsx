@@ -1,6 +1,10 @@
 import { Container, Form, InputGroup, Button } from "react-bootstrap"
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-const buildChatWindow = () => {
+const BuildChatWindow = () => {
+  const channels = useSelector((state) => state.channels.channels);
+  console.log(channels);
   return <Container className="h-100 my-4 overflow-hidden rounded shadow">
     <div className="row h-100">
       <div className="col-3 h-100">
@@ -14,6 +18,9 @@ const buildChatWindow = () => {
           </button>
         </div>
         <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
+          {channels.map((channel)=> {
+            return (<li key={channel.id}><Button variant="secondary" className="w-100 rounded-0 text-start"># {channel.name}</Button></li>)
+          })}
         </ul>
       </div>
       <div className="col h-100">
@@ -45,4 +52,4 @@ const buildChatWindow = () => {
   </Container>
 }
 
-export const ChatWindow = () => buildChatWindow();
+export const ChatWindow = () => BuildChatWindow();

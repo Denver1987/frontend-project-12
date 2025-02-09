@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { authorize, getAuthToken, getCurrentUser } from '../../utils/login.js';
 import axios from 'axios';
 
+
 export const fetchAuthData = createAsyncThunk(
   'auth/fetchAuthData',
   async ({ username, password }) => {
@@ -23,13 +24,13 @@ const authSlice = createSlice({
       delete state.authToken;
       delete state.username;
       state.isAuthFailed = false;
-      document.dispatchEvent('Loguot');
+      //document.dispatchEvent('Loguot');
     }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAuthData.pending, (state, action) => {
-        console.log('onFetch');
+      .addCase(fetchAuthData.pending, () => {
+        console.log('onAuthFetch');
       })
       .addCase(fetchAuthData.fulfilled, (state, action) => {
         console.log(action.payload);
@@ -37,8 +38,9 @@ const authSlice = createSlice({
         authorize(action.payload);
         state.authToken = token;
         state.username = username;
+        state.isAuthFailed = false;
       })
-      .addCase(fetchAuthData.rejected, (state, action) => {
+      .addCase(fetchAuthData.rejected, (state) => {
         state.isAuthFailed = true;
       })
   }

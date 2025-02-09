@@ -1,8 +1,5 @@
 import { Formik, Form, Field } from 'formik';
-import axios from 'axios';
-import { authorize, getAuthToken, isAuthenticated } from '../utils/login.js';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAuthData } from '../store/slices/auth.js';
 //import * as yup from 'yup';
@@ -13,9 +10,9 @@ import { fetchAuthData } from '../store/slices/auth.js';
 // });
 
 const BuildLoginForm = () => {
-  const navigate = useNavigate();
-  const authToken = useSelector((state) => state.auth.authToken);
   const dispatch = useDispatch();
+  const isAuthFailed = useSelector((state) => state.auth.isAuthFailed);
+  console.log(isAuthFailed);
   return <Formik
     initialValues={{
       username: "",
@@ -35,7 +32,7 @@ const BuildLoginForm = () => {
           <Field
             type="text"
             name="username"
-            className="form-control"
+            className={`form-control ${isAuthFailed ? "is-invalid" : ""}`}
           />
         </div>
         <div className="form-group p-3">
@@ -43,10 +40,14 @@ const BuildLoginForm = () => {
           <Field
             type="password"
             name="password"
-            className="form-control"
+            className={`form-control ${isAuthFailed ? "is-invalid" : ""}`}
           />
         </div>
+        {isAuthFailed ? <Alert variant="danger">
+          Ошибка авторизации
+        </Alert>: null}
         <div className="p-3">
+
           <button type="submit">Войти</button>
         </div>
       </Form>

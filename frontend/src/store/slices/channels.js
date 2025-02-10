@@ -14,12 +14,29 @@ export const fetchChannels = createAsyncThunk(
   }
 );
 
+export const addChannel = createAsyncThunk(
+  'channels/addChannel',
+  async ({newChannelName, authToken}) => {
+    const response = await axios('/api/v1/channels', newChannelName, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    return response.data;
+  }
+);
+
 const channelsSlice = createSlice({
   name: 'channels',
   initialState: {
-    channels: []
+    channels: [],
+    isOnAddChannel: false,
   },
-  reducers: {},
+  reducers: {
+    setOnAddChannel: (state, action) => {
+      state.isOnAddChannel = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchChannels.pending, () => {
@@ -37,4 +54,4 @@ const channelsSlice = createSlice({
 
 export default channelsSlice.reducer;
 
-//export const {  } = channelsSlice.actions;
+export const { setOnAddChannel } = channelsSlice.actions;

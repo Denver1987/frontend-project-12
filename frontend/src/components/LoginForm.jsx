@@ -22,7 +22,7 @@ const BuildLoginForm = () => {
       ({ username, password }, { setSubmitting }) => {
         dispatch(fetchAuthData({username, password}))
         setSubmitting(false);
-        }
+      }
     }
     >
     {() => (

@@ -13,6 +13,18 @@ export const fetchMessages = createAsyncThunk(
   }
 );
 
+export const sendMessage = createAsyncThunk(
+  'messages/sendMessage',
+  async ({message, authToken}) => {
+    const response = await axios.post('api/v1/messages', message, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      }
+    });
+    return response.data;
+  }
+);
+
 const messagesSlice = createSlice({
   name: 'messages',
   initialState: {
@@ -30,6 +42,16 @@ const messagesSlice = createSlice({
       })
       .addCase(fetchMessages.rejected, () => {
         console.log('messages fetch error');
+      })
+      .addCase(sendMessage.pending, () => {
+        console.log('onMessagesSend');
+      })
+      .addCase(sendMessage.fulfilled, (state, action) => {
+        console.log('messages: ', action.payload);
+
+      })
+      .addCase(sendMessage.rejected, () => {
+        console.log('messages send error');
       })
   }
 });

@@ -1,10 +1,7 @@
-import { NewChannelModal } from "../modals/NewChannelModal";
 import { setOnAddChannel } from "../../store/slices/channels";
 import { useDispatch } from "react-redux";
 
 const BuildNewChannelButton = () => {
-
-
   const dispatch = useDispatch();
   return <>
     <button onClick={() => {dispatch(setOnAddChannel(true))}} type="button" className="p-0 text-primary btn btn-group-vertical">

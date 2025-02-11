@@ -17,11 +17,12 @@ export const fetchChannels = createAsyncThunk(
 export const addChannel = createAsyncThunk(
   'channels/addChannel',
   async ({newChannelName, authToken}) => {
-    const response = await axios('/api/v1/channels', newChannelName, {
+    const response = await axios.post('/api/v1/channels', { name: newChannelName }, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
     });
+    console.log(response.data);
     return response.data;
   }
 );
@@ -30,6 +31,7 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState: {
     channels: [],
+    currentChannelId: 1,
     isOnAddChannel: false,
   },
   reducers: {
@@ -48,6 +50,16 @@ const channelsSlice = createSlice({
       })
       .addCase(fetchChannels.rejected, () => {
         console.log('channels fetch error');
+      })
+      .addCase(addChannel.pending, () => {
+        console.log('onAddChannel');
+      })
+      .addCase(addChannel.fulfilled, (state, action) => {
+        console.log('channelAdded: ', action.payload);
+        state.isOnAddChannel = false;
+      })
+      .addCase(addChannel.rejected, () => {
+        console.log('channel add error');
       })
   }
 });

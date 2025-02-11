@@ -4,6 +4,8 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOnAddChannel, addChannel } from '../../store/slices/channels';
+import { FormControl } from 'react-bootstrap';
+import { getAuthToken } from '../../utils/login';
 
 const BuildNewChannelModal = () => {
   const [show, setShow] = useState(false);
@@ -21,6 +23,8 @@ const BuildNewChannelModal = () => {
 
   console.log(show);
 
+  const [newChannelName, setNewChannelName] = useState('');
+
   return <>
     <Modal show={show} onHide={() => dispatch(setOnAddChannel(false))}>
       <Modal.Header closeButton>
@@ -28,20 +32,21 @@ const BuildNewChannelModal = () => {
       </Modal.Header>
       <Modal.Body>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Email address</Form.Label>
+            <Form.Label>Название нового канала</Form.Label>
             <Form.Control
-              type="email"
-              placeholder="name@example.com"
+              onChange={(event) => {setNewChannelName(event.target.value)}}
+              type="text"
+              placeholder="Введите название..."
               autoFocus
             />
           </Form.Group>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => dispatch(setOnAddChannel(false))}>
-          Close
+          Отмена
         </Button>
-        <Button variant="primary" onClick={() => {}}>
-          Save Changes
+        <Button variant="primary" onClick={() => {dispatch(addChannel({newChannelName, authToken: getAuthToken()}))}}>
+          Создать
         </Button>
       </Modal.Footer>
     </Modal>

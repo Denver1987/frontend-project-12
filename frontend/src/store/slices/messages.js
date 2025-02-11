@@ -16,6 +16,7 @@ export const fetchMessages = createAsyncThunk(
 export const sendMessage = createAsyncThunk(
   'messages/sendMessage',
   async ({message, authToken}) => {
+    console.log(message);
     const response = await axios.post('api/v1/messages', message, {
       headers: {
         Authorization: `Bearer ${authToken}`,

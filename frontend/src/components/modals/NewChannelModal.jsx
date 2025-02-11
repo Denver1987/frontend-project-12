@@ -4,15 +4,12 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOnAddChannel, addChannel } from '../../store/slices/channels';
-import { FormControl } from 'react-bootstrap';
 import { getAuthToken } from '../../utils/login';
 
 const BuildNewChannelModal = () => {
   const [show, setShow] = useState(false);
   const isOnAddChannel = useSelector((state) => state.channels.isOnAddChannel);
   console.log(isOnAddChannel);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   const dispatch = useDispatch();
 

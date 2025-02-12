@@ -22,7 +22,31 @@ export const addChannel = createAsyncThunk(
         Authorization: `Bearer ${authToken}`,
       },
     });
+    return response.data;
+  }
+);
+
+export const renameChannel = createAsyncThunk(
+  'channels/renameChannel',
+  async ({newChannelName, channelId, authToken}) => {
+    const response = await axios.patch(`/api/v1/channels/${channelId}`, { name: newChannelName }, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
     console.log(response.data);
+    return response.data;
+  }
+);
+
+export const removeChannel = createAsyncThunk(
+  'channels/removeChannel',
+  async ({ removeChannelId, authToken}) => {
+    const response = await axios.delete(`/api/v1/channels${removeChannelId}`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
     return response.data;
   }
 );
@@ -33,13 +57,36 @@ const channelsSlice = createSlice({
     channels: [],
     currentChannelId: '1',
     isOnAddChannel: false,
+    isOnRemoveChannel: false,
+    isOnRenameChannel: false,
+    renamingChannel: null,
   },
   reducers: {
     setOnAddChannel: (state, action) => {
       state.isOnAddChannel = action.payload;
     },
+    setOnRenameChannel: (state, action) => {
+      console.log(action);
+      state.isOnRenameChannel = action.payload.isOn;
+      state.renamingChannel = action.payload.channelId;
+    },
+    setOnRemoveChannel: (state, action) => {
+      state.isOnRemoveChannel = action.payload;
+    },
     setCurrentChannel: (state, action) => {
       state.currentChannelId = action.payload;
+    },
+    addNewChannel: (state, action) => {
+      state.channels.push(action.payload);
+    },
+    renameChannelInStore: (state, action) => {
+      state.channels.map((channel) => {
+        if (channel.id === action.payload.id) channel.name = action.payload.name;
+      });
+
+    },
+    removeChannel: (state, action) => {
+      // state.channels.map((channel) => {});
     }
   },
   extraReducers: (builder) => {
@@ -64,9 +111,37 @@ const channelsSlice = createSlice({
       .addCase(addChannel.rejected, () => {
         console.log('channel add error');
       })
+      .addCase(renameChannel.pending, () => {
+        console.log('onRenameChannel');
+      })
+      .addCase(renameChannel.fulfilled, (state, action) => {
+        console.log('channelRenamed: ', action.payload);
+        state.isOnRenameChannel = false;
+      })
+      .addCase(renameChannel.rejected, () => {
+        console.log('channel rename error');
+      })
+      .addCase(removeChannel.pending, () => {
+        console.log('onRemoveChannel');
+      })
+      .addCase(removeChannel.fulfilled, (state, action) => {
+        console.log('channelRemove: ', action.payload);
+        state.isOnRemoveChannel = false;
+      })
+      .addCase(removeChannel.rejected, () => {
+        console.log('channel remove error');
+      })
+
   }
 });
 
 export default channelsSlice.reducer;
 
-export const { setOnAddChannel, setCurrentChannel } = channelsSlice.actions;
+export const {
+  setOnAddChannel,
+  setOnRenameChannel,
+  setOnRemoveChannel,
+  setCurrentChannel,
+  addNewChannel,
+  renameChannelInStore,
+} = channelsSlice.actions;

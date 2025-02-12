@@ -13,9 +13,7 @@ const BuildChatWindow = () => {
           <b>Каналы</b>
           <NewChannelButton />
         </div>
-        <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-          <ChannelBox />
-        </ul>
+        <ChannelBox />
       </div>
       <div className="col h-100">
         <div className="d-flex flex-column h-100">
@@ -23,9 +21,7 @@ const BuildChatWindow = () => {
             <p className="m-0"><b># undefined</b></p>
             <span className="text-muted">0 сообщений</span>
           </div>
-          <div id="messages-box" className="chat-messages overflow-auto px-5">
-            <MessageBox />
-          </div>
+          <MessageBox />
           <div className="mt-auto">
             <MessageInputForm />
           </div>

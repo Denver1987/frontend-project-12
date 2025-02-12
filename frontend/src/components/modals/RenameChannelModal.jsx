@@ -3,30 +3,31 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { setOnAddChannel, addChannel } from '../../store/slices/channels';
+import { setOnRenameChannel, renameChannel } from '../../store/slices/channels';
 import { getAuthToken } from '../../utils/login';
 
-const BuildNewChannelModal = () => {
+const BuildRenameChannelModal = () => {
   const [show, setShow] = useState(false);
-  const isOnAddChannel = useSelector((state) => state.channels.isOnAddChannel);
+  const isOnRenameChannel = useSelector((state) => state.channels.isOnRenameChannel);
+  const renamingChannel = useSelector((state) => state.channels.renamingChannel);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (isOnAddChannel) setShow(true);
-    if (!isOnAddChannel) setShow(false);
-  }, [isOnAddChannel]);
+    if (isOnRenameChannel) setShow(true);
+    if (!isOnRenameChannel) setShow(false);
+  }, [isOnRenameChannel]);
 
   const [newChannelName, setNewChannelName] = useState('');
 
   return <>
-    <Modal show={show} onHide={() => dispatch(setOnAddChannel(false))}>
+    <Modal show={show} onHide={() => dispatch(setOnRenameChannel(false, null))}>
       <Modal.Header closeButton>
-        <Modal.Title>Создание нового канала</Modal.Title>
+        <Modal.Title>Переименование канала</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Название нового канала</Form.Label>
+            <Form.Label>Новое название канала</Form.Label>
             <Form.Control
               onChange={(event) => {setNewChannelName(event.target.value)}}
               type="text"
@@ -36,17 +37,15 @@ const BuildNewChannelModal = () => {
           </Form.Group>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => dispatch(setOnAddChannel(false))}>
+        <Button variant="secondary" onClick={() => dispatch(setOnRenameChannel(false))}>
           Отмена
         </Button>
-        <Button variant="primary" onClick={() => {dispatch(addChannel({newChannelName, authToken: getAuthToken()}))}}>
-          Создать
+        <Button variant="primary" onClick={() => {dispatch(renameChannel({newChannelName, channelId: renamingChannel, authToken: getAuthToken()}))}}>
+          Переименовать
         </Button>
       </Modal.Footer>
     </Modal>
   </>
-
-
 }
 
-export const NewChannelModal = (props) => BuildNewChannelModal(props);
+export const RenameChannelModal = (props) => BuildRenameChannelModal(props);

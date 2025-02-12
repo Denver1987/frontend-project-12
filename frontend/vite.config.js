@@ -5,7 +5,7 @@ import dns from 'dns'
 dns.setDefaultResultOrder('verbatim')
 
 export default defineConfig({
-  plugins: [react()],  
+  plugins: [react()],
   server: {
     port: 5002,
     proxy: {
@@ -16,12 +16,10 @@ export default defineConfig({
       // Проксируем WebSocket соединения
       '/socket.io': {
         target: 'ws://localhost:5001',
-        ws: true,
-        rewriteWsOrigin: true,
+
       },
     },
     open: true,
   },
-  
+
 })
-      

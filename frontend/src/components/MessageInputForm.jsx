@@ -6,7 +6,6 @@ import { getAuthToken, getCurrentUser } from "../utils/login";
 
 const BuildMessageInputForm = () => {
   const currentChannel = useSelector((state) => state.channels.currentChannelId);
-  console.log(currentChannel);
   const [messageText, setMessageText] = useState('');
   const dispatch = useDispatch();
   const newMessage = { body: messageText, channelId: currentChannel, username: getCurrentUser() }

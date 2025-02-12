@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { fetchChannels } from '../store/slices/channels.js';
 import { NewChannelModal } from '../components/modals/NewChannelModal.jsx';
 import { fetchMessages } from '../store/slices/messages.js';
+import { RenameChannelModal } from '../components/modals/RenameChannelModal.jsx';
 
 const BuildChatPage = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const BuildChatPage = () => {
         <NavPanel></NavPanel>
         <ChatWindow></ChatWindow>
         <NewChannelModal />
+        <RenameChannelModal />
       </div>
     );
   }

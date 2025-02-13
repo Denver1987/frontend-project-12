@@ -94,7 +94,7 @@ const channelsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(removeChannelFromStore, (state, action) => {
-        console.log('remove channel' + action.payload.id) + ' from store';
+        console.log('remove channel' + action.payload.id + ' from store');
       })
       .addCase(fetchChannels.pending, () => {
         console.log('onChannelsFetch');

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { removeChannelFromStore } from './channels';
 import axios from 'axios';
 
 export const fetchMessages = createAsyncThunk(
@@ -37,6 +38,11 @@ const messagesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+    .addCase(removeChannelFromStore, (state, action) => {
+
+      state.messages = state.messages.filter((message) => message.channelId !== action.payload.id);
+
+    })
       .addCase(fetchMessages.pending, () => {
         console.log('onMessagesFetch');
       })

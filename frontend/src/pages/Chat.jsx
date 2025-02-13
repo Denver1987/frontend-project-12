@@ -7,6 +7,7 @@ import { fetchChannels } from '../store/slices/channels.js';
 import { NewChannelModal } from '../components/modals/NewChannelModal.jsx';
 import { fetchMessages } from '../store/slices/messages.js';
 import { RenameChannelModal } from '../components/modals/RenameChannelModal.jsx';
+import { RemoveChannelModal } from '../components/modals/RemoveChannelModal.jsx';
 
 const BuildChatPage = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const BuildChatPage = () => {
         <ChatWindow></ChatWindow>
         <NewChannelModal />
         <RenameChannelModal />
+        <RemoveChannelModal />
       </div>
     );
   }

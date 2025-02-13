@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
-import { setCurrentChannel, setOnRenameChannel } from "../store/slices/channels.js";
+import { setCurrentChannel, setOnRemoveChannel, setOnRenameChannel } from "../store/slices/channels.js";
 
 const BuildChannelBox = () => {
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const BuildChannelBox = () => {
           <Dropdown.Toggle split variant="light" id="dropdown-split-basic" />
           <Dropdown.Menu>
             <Dropdown.Item as="button" onClick = {() => {dispatch(setOnRenameChannel({ isOn: true, channelId: channel.id }))}}>Переименовать</Dropdown.Item>
-            <Dropdown.Item as="button">Удалить</Dropdown.Item>
+            <Dropdown.Item as="button" onClick = {() => {dispatch(setOnRemoveChannel({ isOn: true, channelId: channel.id}))}}>Удалить</Dropdown.Item>
           </Dropdown.Menu>
           </>
           : null}

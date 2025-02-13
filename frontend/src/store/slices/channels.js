@@ -14,7 +14,7 @@ export const fetchChannels = createAsyncThunk(
   }
 );
 
-export const addChannel = createAsyncThunk(
+export const createChannel = createAsyncThunk(
   'channels/addChannel',
   async ({newChannelName, authToken}) => {
     const response = await axios.post('/api/v1/channels', { name: newChannelName }, {
@@ -42,7 +42,7 @@ export const renameChannel = createAsyncThunk(
 export const removeChannel = createAsyncThunk(
   'channels/removeChannel',
   async ({ removeChannelId, authToken}) => {
-    const response = await axios.delete(`/api/v1/channels${removeChannelId}`, {
+    const response = await axios.delete(`/api/v1/channels/${removeChannelId}`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
@@ -60,6 +60,7 @@ const channelsSlice = createSlice({
     isOnRemoveChannel: false,
     isOnRenameChannel: false,
     renamingChannel: null,
+    removingChannel: null
   },
   reducers: {
     setOnAddChannel: (state, action) => {
@@ -71,7 +72,9 @@ const channelsSlice = createSlice({
       state.renamingChannel = action.payload.channelId;
     },
     setOnRemoveChannel: (state, action) => {
-      state.isOnRemoveChannel = action.payload;
+      console.log(action.payload);
+      state.isOnRemoveChannel = action.payload.isOn;
+      state.removingChannel = action.payload.channelId;
     },
     setCurrentChannel: (state, action) => {
       state.currentChannelId = action.payload;
@@ -83,14 +86,16 @@ const channelsSlice = createSlice({
       state.channels.map((channel) => {
         if (channel.id === action.payload.id) channel.name = action.payload.name;
       });
-
     },
-    removeChannel: (state, action) => {
-      // state.channels.map((channel) => {});
+    removeChannelFromStore: (state, action) => {
+      state.channels = state.channels.filter((channel) => channel.id !== action.payload.id);
     }
   },
   extraReducers: (builder) => {
     builder
+      .addCase(removeChannelFromStore, (state, action) => {
+        console.log('remove channel' + action.payload.id) + ' from store';
+      })
       .addCase(fetchChannels.pending, () => {
         console.log('onChannelsFetch');
       })
@@ -101,14 +106,14 @@ const channelsSlice = createSlice({
       .addCase(fetchChannels.rejected, () => {
         console.log('channels fetch error');
       })
-      .addCase(addChannel.pending, () => {
+      .addCase(createChannel.pending, () => {
         console.log('onAddChannel');
       })
-      .addCase(addChannel.fulfilled, (state, action) => {
+      .addCase(createChannel.fulfilled, (state, action) => {
         console.log('channelAdded: ', action.payload);
         state.isOnAddChannel = false;
       })
-      .addCase(addChannel.rejected, () => {
+      .addCase(createChannel.rejected, () => {
         console.log('channel add error');
       })
       .addCase(renameChannel.pending, () => {
@@ -144,4 +149,5 @@ export const {
   setCurrentChannel,
   addNewChannel,
   renameChannelInStore,
+  removeChannelFromStore
 } = channelsSlice.actions;

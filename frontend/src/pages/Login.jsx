@@ -23,7 +23,7 @@ const BuildPageLogin = () => {
         <div className="row justify-content-center align-content-center h-100">
           <div className="col-md-8">
             <LoginForm />
-            <p>Нет аккаунта? <Nav.Link href="/register">Регистрация</Nav.Link></p>
+            <p>Нет аккаунта? <Nav.Link href="/singup">Регистрация</Nav.Link></p>
           </div>
         </div>
       </Container>

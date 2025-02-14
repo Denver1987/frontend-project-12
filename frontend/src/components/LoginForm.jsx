@@ -1,5 +1,5 @@
-import { Formik, Form, Field } from 'formik';
-import { Alert } from 'react-bootstrap';
+import { useFormik } from 'formik';
+import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAuthData } from '../store/slices/auth.js';
 //import * as yup from 'yup';
@@ -13,46 +13,34 @@ const BuildLoginForm = () => {
   const dispatch = useDispatch();
   const isAuthFailed = useSelector((state) => state.auth.isAuthFailed);
   console.log(isAuthFailed);
-  return <Formik
-    initialValues={{
+
+  const formik = useFormik({
+    initialValues: {
       username: "",
       password: ""
-    }}
-    onSubmit={
-      ({ username, password }, { setSubmitting }) => {
-        dispatch(fetchAuthData({username, password}))
-        setSubmitting(false);
-      }
+    },
+    onSubmit: ({ username, password }, { setSubmitting }) => {
+      dispatch(fetchAuthData({username, password}))
+      setSubmitting(false);
     }
-    >
-    {() => (
-      <Form>
-        <div className="form-group p-3">
-          <label htmlFor="username">username</label>
-          <Field
-            type="text"
-            name="username"
-            className={`form-control ${isAuthFailed ? "is-invalid" : ""}`}
-          />
-        </div>
-        <div className="form-group p-3">
-          <label htmlFor="password">Password</label>
-          <Field
-            type="password"
-            name="password"
-            className={`form-control ${isAuthFailed ? "is-invalid" : ""}`}
-          />
-        </div>
-        {isAuthFailed ? <Alert variant="danger">
-          Ошибка авторизации
-        </Alert>: null}
-        <div className="p-3">
+  });
+  return (
+    <Form onSubmit={formik.handleSubmit}>
+        <Form.Group className="mb-3 position-relative" controlId="formBasicUsername">
+        <Form.Label>Имя пользователя</Form.Label>
+        <Form.Control isInvalid={isAuthFailed} type="text" onChange={formik.handleChange} value={formik.values.username} name="username" placeholder="" required/>
+      </Form.Group>
 
-          <button type="submit">Войти</button>
-        </div>
-      </Form>
-    )}
-    </Formik>
+      <Form.Group className="mb-3 position-relative" controlId="formBasicPassword">
+        <Form.Label>Пароль</Form.Label>
+        <Form.Control isInvalid={isAuthFailed} type="password" onChange={formik.handleChange} value={formik.values.password} name="password" placeholder="Password" required/>
+        <Form.Control.Feedback type="invalid" tooltip>
+          Неверные имя пользователя или пароль
+        </Form.Control.Feedback>
+      </Form.Group>
+      <Button type="submit">Войти</Button>
+    </Form>
+  );
 }
 
 export const LoginForm = () => BuildLoginForm();

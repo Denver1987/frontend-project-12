@@ -12,7 +12,7 @@ function App() {
         <Route path="*" element={<Page404 />} />
         <Route path="/" element={<PageChat />} />
         <Route path="/login" element={<PageLogin />} />
-        <Route path="/register" element={<PageRegister />} />
+        <Route path="/singup" element={<PageRegister />} />
       </Routes>
     </BrowserRouter>
   )

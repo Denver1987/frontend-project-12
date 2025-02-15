@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
-import { Alert } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOnAddChannel, createChannel } from '../../store/slices/channels';
 import { getAuthToken } from '../../utils/login';
@@ -55,10 +52,13 @@ const BuildNewChannelModal = () => {
               type="text"
               placeholder="Введите название..."
               autoFocus
+              isInvalid={formik.touched.name && formik.errors.name}
             />
-            {formik.touched.name && formik.errors.name ?
-            <Alert variant="danger">{formik.errors.name}</Alert> : null}
+            <Form.Control.Feedback type="invalid" tooltip>
+              {formik.errors.name}
+            </Form.Control.Feedback>
           </Form.Group>
+
 
       </Modal.Body>
       <Modal.Footer>

@@ -1,13 +1,10 @@
 import { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
+import { Button, Form, Modal } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOnRenameChannel, renameChannel } from '../../store/slices/channels';
 import { getAuthToken } from '../../utils/login';
 import * as yup from "yup";
-import { Alert } from 'react-bootstrap';
 
 const BuildRenameChannelModal = () => {
 
@@ -56,9 +53,11 @@ const BuildRenameChannelModal = () => {
             type="text"
             placeholder="Введите название..."
             autoFocus
+            isInvalid={formik.touched.name && formik.errors.name}
           />
-          {formik.touched.name && formik.errors.name ?
-          <Alert variant="danger">{formik.errors.name}</Alert> : null}
+          <Form.Control.Feedback type="invalid" tooltip>
+            {formik.errors.name}
+          </Form.Control.Feedback>
         </Form.Group>
       </Modal.Body>
       <Modal.Footer>

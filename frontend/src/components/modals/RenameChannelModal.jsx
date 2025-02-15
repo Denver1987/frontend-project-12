@@ -10,7 +10,7 @@ const BuildRenameChannelModal = () => {
 
   const dispatch = useDispatch();
 
-  const existsChannels = useSelector((state) => state.channels.channels).map((channel) => channel.name);
+  const existingChannels = useSelector((state) => state.channels.channels).map((channel) => channel.name);
 
   const formik = useFormik({
     initialValues: {
@@ -22,7 +22,7 @@ const BuildRenameChannelModal = () => {
       .min(3, 'Имя должно содержать от 3 до 20 символов')
       .max(20, 'Имя должно содержать от 3 до 20 символов')
       .required('Это обязательное поле')
-      .notOneOf(existsChannels, 'Такой канал уже существует')
+      .notOneOf(existingChannels, 'Такой канал уже существует')
     }),
     onSubmit: (values) => {
       dispatch(renameChannel({newChannelName: values.name, channelId: renamingChannel, authToken: getAuthToken()}))
@@ -54,6 +54,7 @@ const BuildRenameChannelModal = () => {
             placeholder="Введите название..."
             autoFocus
             isInvalid={formik.touched.name && formik.errors.name}
+            onKeyDown={(event) => {event.key === 'Enter' ? formik.handleSubmit() : null}}
           />
           <Form.Control.Feedback type="invalid" tooltip>
             {formik.errors.name}

@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 //import { getAuthToken, getCurrentUser } from '../../utils/login.js';
 import axios from 'axios';
+import settings from '../../settings/settings';
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
@@ -89,6 +90,7 @@ const channelsSlice = createSlice({
     },
     removeChannelFromStore: (state, action) => {
       state.channels = state.channels.filter((channel) => channel.id !== action.payload.id);
+      if (state.currentChannelId === action.payload.id) state.currentChannelId = settings.defaultChannelId;
     }
   },
   extraReducers: (builder) => {
@@ -112,6 +114,7 @@ const channelsSlice = createSlice({
       .addCase(createChannel.fulfilled, (state, action) => {
         console.log('channelAdded: ', action.payload);
         state.isOnAddChannel = false;
+        state.currentChannelId = action.payload.id;
       })
       .addCase(createChannel.rejected, () => {
         console.log('channel add error');

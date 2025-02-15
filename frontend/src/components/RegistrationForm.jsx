@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import * as yup from 'yup';
 import { authorize } from '../utils/login';
@@ -33,25 +33,28 @@ const BuildRegistrationForm = () => {
   });
   return (
     <Form>
-      <Form.Group className="mb-3" controlId="formBasicEmail">
+      <Form.Group className="mb-3 position-relative" controlId="formBasicEmail">
         <Form.Label>Имя пользователя</Form.Label>
-        <Form.Control type="text" onChange={formik.handleChange} value={formik.values.username} name="username" placeholder="" />
-        {formik.touched.username && formik.errors.username ?
-            <Alert variant="danger">{formik.errors.username}</Alert> : null}
+        <Form.Control type="text" isInvalid={formik.touched.username && formik.errors.username} onChange={formik.handleChange} value={formik.values.username} name="username" placeholder="" />
+        <Form.Control.Feedback type="invalid" tooltip>
+          {formik.errors.username}
+        </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicPassword">
+      <Form.Group className="mb-3 position-relative" controlId="formBasicPassword">
         <Form.Label>Пароль</Form.Label>
-        <Form.Control type="password" onChange={formik.handleChange} value={formik.values.password} name="password" placeholder="Password" />
-        {formik.touched.password && formik.errors.password ?
-            <Alert variant="danger">{formik.errors.password}</Alert> : null}
+        <Form.Control type="password" isInvalid={formik.touched.password && formik.errors.password} onChange={formik.handleChange} value={formik.values.password} name="password" placeholder="Password" />
+        <Form.Control.Feedback type="invalid" tooltip>
+          {formik.errors.password}
+        </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="formBasicConfirm">
+      <Form.Group className="mb-3 position-relative" controlId="formBasicConfirm">
         <Form.Label>Подтверждение пароля</Form.Label>
-        <Form.Control type="password" onChange={formik.handleChange} value={formik.values.confirm} name="confirm" placeholder="Password" />
-        {formik.touched.confirm && formik.errors.confirm ?
-            <Alert variant="danger">{formik.errors.confirm}</Alert> : null}
+        <Form.Control type="password"  isInvalid={formik.touched.confirm && formik.errors.confirm} onChange={formik.handleChange} value={formik.values.confirm} name="confirm" placeholder="Password" />
+        <Form.Control.Feedback type="invalid" tooltip>
+          {formik.errors.confirm}
+        </Form.Control.Feedback>
       </Form.Group>
 
       <Button variant="primary" type="button" onClick={formik.handleSubmit}>

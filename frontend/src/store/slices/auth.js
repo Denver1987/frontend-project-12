@@ -18,13 +18,17 @@ const authSlice = createSlice({
     authToken: getAuthToken(),
     username: getCurrentUser(),
     isAuthFailed: false,
-    isOnAuth: false
+    isOnAuth: false,
+    isNetworkError: false,
   },
   reducers: {
     removeAuthData: (state) => {
       delete state.authToken;
       delete state.username;
       state.isAuthFailed = false;
+    },
+    resetNetworkError: (state) => {
+      state.isNetworkError = false;
     }
   },
   extraReducers: (builder) => {
@@ -43,8 +47,14 @@ const authSlice = createSlice({
         state.isAuthFailed = false;
         state.isOnAuth = false;
       })
-      .addCase(fetchAuthData.rejected, (state) => {
-        state.isAuthFailed = true;
+      .addCase(fetchAuthData.rejected, (state, action) => {
+        console.log(action);
+        if (action.error.code === 'ERR_BAD_REQUEST') {
+          state.isAuthFailed = true;
+          state.isOnAuth = false;
+        } else if (action.error.code === 'ERR_NETWORK') {
+          state.isNetworkError = true;
+        }
         state.isOnAuth = false;
       })
   }
@@ -52,4 +62,4 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 
-export const { removeAuthData } = authSlice.actions;
+export const { removeAuthData, resetNetworkError } = authSlice.actions;

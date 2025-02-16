@@ -3,8 +3,10 @@ import { loguot, isAuthenticated } from "../utils/login";
 import { useNavigate } from "react-router-dom";
 import { removeAuthData } from "../store/slices/auth.js";
 import { useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 const BuildNavPanel = () => {
+  const {t} = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   return <Nav as="nav" className="navbar navbar-expand-lg shadow-sm navbar-light bg-white">
@@ -18,7 +20,7 @@ const BuildNavPanel = () => {
           dispatch(removeAuthData());
           navigate('/login');
         }
-      }>Выйти</Button> : null}
+      }>{t('exit')}</Button> : null}
     </Container>
   </Nav>
 }

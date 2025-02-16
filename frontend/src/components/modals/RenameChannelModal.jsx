@@ -5,8 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setOnRenameChannel, renameChannel } from '../../store/slices/channels';
 import { getAuthToken } from '../../utils/login';
 import * as yup from "yup";
+import { useTranslation } from 'react-i18next';
 
 const BuildRenameChannelModal = () => {
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
@@ -30,10 +32,10 @@ const BuildRenameChannelModal = () => {
     validationSchema: yup.object().shape({
       name: yup
       .string()
-      .min(3, 'Имя должно содержать от 3 до 20 символов')
-      .max(20, 'Имя должно содержать от 3 до 20 символов')
-      .required('Это обязательное поле')
-      .notOneOf(existingChannels, 'Такой канал уже существует')
+      .min(3, t('3-20symb'))
+      .max(20, t('3-20symb'))
+      .required(t('required'))
+      .notOneOf(existingChannels, t('channelExist'))
     }),
     onSubmit: (values) => {
       dispatch(renameChannel({newChannelName: values.name, channelId: renamingChannelId, authToken: getAuthToken()}))
@@ -45,22 +47,26 @@ const BuildRenameChannelModal = () => {
   const isOnSending = useSelector((state) => state.channels.onSending);
 
   useEffect(() => {
-    if (isOnRenameChannel) setShow(true);
+    if (isOnRenameChannel) {
+      setShow(true);
+      formik.values.name = renamingChannelName;
+    }
     if (!isOnRenameChannel) setShow(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnRenameChannel]);
 
   return <>
     <Modal show={show} onHide={() => dispatch(setOnRenameChannel(false, null))}>
       <Modal.Header closeButton>
-        <Modal.Title>Переименование канала</Modal.Title>
+        <Modal.Title>{t('renamingChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>Новое название канала</Form.Label>
+          <Form.Label>{t('newChannelName')}</Form.Label>
           <Form.Control
             name="name"
             onChange={formik.handleChange}
-            value={renamingChannelName}
+            value={formik.values.name}
             type="text"
             placeholder="Введите название..."
             autoFocus
@@ -74,10 +80,10 @@ const BuildRenameChannelModal = () => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={() => dispatch(setOnRenameChannel(false))} disabled={isOnSending}>
-          Отмена
+          {t('cancel')}
         </Button>
         <Button variant="primary" onClick={formik.handleSubmit} disabled={isOnSending}>
-          Переименовать
+          {t('rename')}
         </Button>
       </Modal.Footer>
     </Modal>

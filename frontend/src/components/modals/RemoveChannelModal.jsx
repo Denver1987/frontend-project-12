@@ -3,8 +3,10 @@ import { useDispatch, useSelector} from "react-redux";
 import { useEffect, useState } from "react";
 import { removeChannel, setOnRemoveChannel } from "../../store/slices/channels";
 import { getAuthToken } from "../../utils/login";
+import { useTranslation } from "react-i18next";
 
 export const BuildRemoveChannelModal = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
@@ -21,15 +23,15 @@ export const BuildRemoveChannelModal = () => {
   return <>
     <Modal show={show} onHide={() => dispatch(setOnRemoveChannel(false, null))}>
       <Modal.Header closeButton>
-        <Modal.Title>Удаление канала</Modal.Title>
+        <Modal.Title>{t('removingChannel')}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Уверены?</Modal.Body>
+      <Modal.Body>{t('sure')}</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" disabled={isOnSending} onClick={() => dispatch(setOnRemoveChannel(false, null))}>
-          Отмена
+        {t('cancel')}
         </Button>
         <Button variant="danger" disabled={isOnSending} onClick={() => {dispatch(removeChannel({removeChannelId: removingChannel, authToken: getAuthToken()}))}}>
-          Удалить
+        {t('remove')}
         </Button>
       </Modal.Footer>
     </Modal>

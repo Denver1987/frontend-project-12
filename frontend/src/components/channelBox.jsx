@@ -2,8 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
 import { setCurrentChannel, setOnRemoveChannel, setOnRenameChannel } from "../store/slices/channels.js";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 const BuildChannelBox = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.channels.channels);
   const currentChannel = useSelector((state) => state.channels.currentChannelId);
@@ -30,10 +32,10 @@ const BuildChannelBox = () => {
           # {channel.name}
         </Button>
         {channel.removable ? <>
-          <Dropdown.Toggle split variant="light" id="dropdown-split-basic" />
+          <Dropdown.Toggle split variant="light" id="dropdown-split-basic"><span className="visually-hidden">{t('channelControl')}</span></Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item as="button" onClick = {() => {dispatch(setOnRenameChannel({ isOn: true, channelId: channel.id }))}}>Переименовать</Dropdown.Item>
-            <Dropdown.Item as="button" onClick = {() => {dispatch(setOnRemoveChannel({ isOn: true, channelId: channel.id}))}}>Удалить</Dropdown.Item>
+            <Dropdown.Item as="button" onClick = {() => {dispatch(setOnRenameChannel({ isOn: true, channelId: channel.id }))}}>{t('rename')}</Dropdown.Item>
+            <Dropdown.Item as="button" onClick = {() => {dispatch(setOnRemoveChannel({ isOn: true, channelId: channel.id}))}}>{t('remove')}</Dropdown.Item>
           </Dropdown.Menu>
           </>
           : null}

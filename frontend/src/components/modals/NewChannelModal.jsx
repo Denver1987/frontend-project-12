@@ -5,9 +5,10 @@ import { setOnAddChannel, createChannel } from '../../store/slices/channels';
 import { getAuthToken } from '../../utils/login';
 import * as yup from "yup";
 import { useFormik } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 const BuildNewChannelModal = () => {
-
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const inputRef = useRef();
 
@@ -16,7 +17,10 @@ const BuildNewChannelModal = () => {
   const isOnSending = useSelector((state) => state.channels.onSending);
 
   useEffect(() => {
-    if (isOnAddChannel) setShow(true);
+    if (isOnAddChannel) {
+      setShow(true);
+      //inputRef.current.focus();
+    }
     if (!isOnAddChannel) setShow(false);
   }, [isOnAddChannel]);
 
@@ -29,10 +33,10 @@ const BuildNewChannelModal = () => {
     validationSchema: yup.object().shape({
       name: yup
       .string()
-      .min(3, 'Имя должно содержать от 3 до 20 символов')
-      .max(20, 'Имя должно содержать от 3 до 20 символов')
-      .required('Это обязательное поле')
-      .notOneOf(existingChannels, 'Такой канал уже существует')
+      .min(3, t('3-20symb'))
+      .max(20, t('3-20symb'))
+      .required(t('required'))
+      .notOneOf(existingChannels, t('channelexist'))
     }),
     onSubmit: (values, { setSubmitting }) => {
       dispatch(createChannel({newChannelName: values.name, authToken: getAuthToken()}));
@@ -44,11 +48,11 @@ const BuildNewChannelModal = () => {
   return <>
     <Modal show={show} onHide={() => dispatch(setOnAddChannel(false))}>
       <Modal.Header closeButton>
-        <Modal.Title>Создание нового канала</Modal.Title>
+        <Modal.Title>{t('createChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>Название нового канала</Form.Label>
+            <Form.Label>{t('channelName')}</Form.Label>
             <Form.Control
               ref={inputRef}
               onChange={formik.handleChange}
@@ -69,10 +73,10 @@ const BuildNewChannelModal = () => {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" disabled={isOnSending} onClick={() => dispatch(setOnAddChannel(false))}>
-          Отмена
+        {t('cancel')}
         </Button>
         <Button variant="primary" disabled={isOnSending} onClick={formik.handleSubmit}>
-          Создать
+        {t('create')}
         </Button>
       </Modal.Footer>
     </Modal>

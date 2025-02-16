@@ -5,9 +5,11 @@ import { MessageInputForm } from "./MessageInputForm";
 import { MessageBox } from "./MessageBox";
 import { ChannelBox } from "./channelBox";
 import { useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 
 const BuildChatWindow = () => {
+  const {t} = useTranslation();
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const currentChannelName = useSelector((state) => state.channels.channels)
     .reduce((previous, channel) => {
@@ -25,7 +27,7 @@ const BuildChatWindow = () => {
     <Row className="h-100">
       <Col className="col-3 h-100 flex-column d-flex">
         <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-          <b>Каналы</b>
+          <b>{t('channels')}</b>
           <NewChannelButton />
         </div>
         <ChannelBox />
@@ -34,7 +36,7 @@ const BuildChatWindow = () => {
         <div className="d-flex flex-column h-100">
           <div className="bg-light mb-4 p-3 shadow-sm small">
             <p className="m-0"><b># {currentChannelName}</b></p>
-            <span className="text-muted">{messageCount} сообщений</span>
+            <span className="text-muted">{t('messages', {count: messageCount})}</span>
           </div>
           <MessageBox />
           <div className="mt-auto">

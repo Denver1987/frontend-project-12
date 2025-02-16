@@ -4,8 +4,10 @@ import { Nav, Container } from 'react-bootstrap';
 import { LoginForm } from '../components/LoginForm.jsx';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const BuildPageLogin = () => {
+  const {t} = useTranslation();
   const navigate = useNavigate();
   const authToken = useSelector((state) => state.auth.authToken);
   useEffect(() => {
@@ -23,7 +25,7 @@ const BuildPageLogin = () => {
         <div className="row justify-content-center align-content-center h-100">
           <div className="col-md-8">
             <LoginForm />
-            <p>Нет аккаунта? <Nav.Link href="/singup">Регистрация</Nav.Link></p>
+            <p>{t('noacc')} <Nav.Link href="/singup">{t('registration')}</Nav.Link></p>
           </div>
         </div>
       </Container>

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
 const BuildMessageBox = () => {
@@ -5,7 +6,22 @@ const BuildMessageBox = () => {
   const currentChannel = useSelector((state) => state.channels.currentChannelId);
   console.log(messages);
 
-  return <div id="messages-box" className="chat-messages overflow-auto px-5">
+  const messageBoxRef = useRef();
+
+  useEffect(() => {
+    if (messageBoxRef.current) {
+      messageBoxRef.current.scrollTo({
+        top: messageBoxRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [messages]);
+
+  return (
+    <div id="messages-box"
+    ref={messageBoxRef}
+    className="chat-messages overflow-auto px-5"
+    >
     {
       messages.map((message) => {
         if (currentChannel === message.channelId) {
@@ -18,7 +34,7 @@ const BuildMessageBox = () => {
       })
     }
   </div>
-
+  )
 }
 
 export const MessageBox = () => BuildMessageBox();

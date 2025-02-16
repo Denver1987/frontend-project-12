@@ -61,7 +61,8 @@ const channelsSlice = createSlice({
     isOnRemoveChannel: false,
     isOnRenameChannel: false,
     renamingChannel: null,
-    removingChannel: null
+    removingChannel: null,
+    onSending: false,
   },
   reducers: {
     setOnAddChannel: (state, action) => {
@@ -69,8 +70,9 @@ const channelsSlice = createSlice({
     },
     setOnRenameChannel: (state, action) => {
       console.log(action);
-      state.isOnRenameChannel = action.payload.isOn;
       state.renamingChannel = action.payload.channelId;
+      state.isOnRenameChannel = action.payload.isOn;
+
     },
     setOnRemoveChannel: (state, action) => {
       console.log(action.payload);
@@ -108,36 +110,44 @@ const channelsSlice = createSlice({
       .addCase(fetchChannels.rejected, () => {
         console.log('channels fetch error');
       })
-      .addCase(createChannel.pending, () => {
+      .addCase(createChannel.pending, (state) => {
         console.log('onAddChannel');
+        state.onSending = true;
       })
       .addCase(createChannel.fulfilled, (state, action) => {
         console.log('channelAdded: ', action.payload);
         state.isOnAddChannel = false;
+        state.onSending = false;
         state.currentChannelId = action.payload.id;
       })
       .addCase(createChannel.rejected, () => {
         console.log('channel add error');
       })
-      .addCase(renameChannel.pending, () => {
+      .addCase(renameChannel.pending, (state) => {
         console.log('onRenameChannel');
+        state.onSending = true;
       })
       .addCase(renameChannel.fulfilled, (state, action) => {
         console.log('channelRenamed: ', action.payload);
         state.isOnRenameChannel = false;
+        state.onSending = false;
       })
-      .addCase(renameChannel.rejected, () => {
+      .addCase(renameChannel.rejected, (state) => {
         console.log('channel rename error');
+        state.onSending = false;
       })
-      .addCase(removeChannel.pending, () => {
+      .addCase(removeChannel.pending, (state) => {
         console.log('onRemoveChannel');
+        state.onSending = true;
       })
       .addCase(removeChannel.fulfilled, (state, action) => {
         console.log('channelRemove: ', action.payload);
         state.isOnRemoveChannel = false;
+        state.onSending = false;
       })
-      .addCase(removeChannel.rejected, () => {
+      .addCase(removeChannel.rejected, (state) => {
         console.log('channel remove error');
+        state.onSending = false;
       })
 
   }

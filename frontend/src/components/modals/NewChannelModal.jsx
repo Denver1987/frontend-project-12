@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOnAddChannel, createChannel } from '../../store/slices/channels';
@@ -9,9 +9,11 @@ import { useFormik } from 'formik';
 const BuildNewChannelModal = () => {
 
   const dispatch = useDispatch();
+  const inputRef = useRef();
 
   const [show, setShow] = useState(false);
   const isOnAddChannel = useSelector((state) => state.channels.isOnAddChannel);
+  const isOnSending = useSelector((state) => state.channels.onSending);
 
   useEffect(() => {
     if (isOnAddChannel) setShow(true);
@@ -32,8 +34,10 @@ const BuildNewChannelModal = () => {
       .required('Это обязательное поле')
       .notOneOf(existingChannels, 'Такой канал уже существует')
     }),
-    onSubmit: (values) => {
-      dispatch(createChannel({newChannelName: values.name, authToken: getAuthToken()}))
+    onSubmit: (values, { setSubmitting }) => {
+      dispatch(createChannel({newChannelName: values.name, authToken: getAuthToken()}));
+      setSubmitting(false);
+      console.log(formik.isSubmitting)
     }
   });
 
@@ -46,6 +50,7 @@ const BuildNewChannelModal = () => {
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Название нового канала</Form.Label>
             <Form.Control
+              ref={inputRef}
               onChange={formik.handleChange}
               name="name"
               values={formik.values.name}
@@ -63,10 +68,10 @@ const BuildNewChannelModal = () => {
 
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => dispatch(setOnAddChannel(false))}>
+        <Button variant="secondary" disabled={isOnSending} onClick={() => dispatch(setOnAddChannel(false))}>
           Отмена
         </Button>
-        <Button variant="primary" onClick={formik.handleSubmit}>
+        <Button variant="primary" disabled={isOnSending} onClick={formik.handleSubmit}>
           Создать
         </Button>
       </Modal.Footer>

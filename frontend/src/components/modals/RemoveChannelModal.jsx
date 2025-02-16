@@ -11,6 +11,7 @@ export const BuildRemoveChannelModal = () => {
 
   const isOnRemoveChannel = useSelector((state) => state.channels.isOnRemoveChannel);
   const removingChannel = useSelector((state) => state.channels.removingChannel);
+  const isOnSending = useSelector((state) => state.channels.onSending);
 
   useEffect(() => {
     if (isOnRemoveChannel) setShow(true);
@@ -24,10 +25,10 @@ export const BuildRemoveChannelModal = () => {
       </Modal.Header>
       <Modal.Body>Уверены?</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => dispatch(setOnRemoveChannel(false, null))}>
+        <Button variant="secondary" disabled={isOnSending} onClick={() => dispatch(setOnRemoveChannel(false, null))}>
           Отмена
         </Button>
-        <Button variant="danger" onClick={() => {dispatch(removeChannel({removeChannelId: removingChannel, authToken: getAuthToken()}))}}>
+        <Button variant="danger" disabled={isOnSending} onClick={() => {dispatch(removeChannel({removeChannelId: removingChannel, authToken: getAuthToken()}))}}>
           Удалить
         </Button>
       </Modal.Footer>

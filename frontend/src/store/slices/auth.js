@@ -17,20 +17,22 @@ const authSlice = createSlice({
   initialState: {
     authToken: getAuthToken(),
     username: getCurrentUser(),
-    isAuthFailed: false
+    isAuthFailed: false,
+    isOnAuth: false
   },
   reducers: {
     removeAuthData: (state) => {
       delete state.authToken;
       delete state.username;
       state.isAuthFailed = false;
-      //document.dispatchEvent('Loguot');
     }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAuthData.pending, () => {
+      .addCase(fetchAuthData.pending, (state) => {
+        state.isOnAuth = true;
         console.log('onAuthFetch');
+
       })
       .addCase(fetchAuthData.fulfilled, (state, action) => {
         console.log(action.payload);
@@ -39,9 +41,11 @@ const authSlice = createSlice({
         state.authToken = token;
         state.username = username;
         state.isAuthFailed = false;
+        state.isOnAuth = false;
       })
       .addCase(fetchAuthData.rejected, (state) => {
         state.isAuthFailed = true;
+        state.isOnAuth = false;
       })
   }
 });

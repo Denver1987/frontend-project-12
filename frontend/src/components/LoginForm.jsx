@@ -2,15 +2,10 @@ import { useFormik } from 'formik';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAuthData } from '../store/slices/auth.js';
-//import * as yup from 'yup';
-
-// const validationScheme = yup.object().shape({
-//   username: yup.string(),
-//   password: yup.string(),
-// });
 
 const BuildLoginForm = () => {
   const dispatch = useDispatch();
+  const isOnAuth = useSelector((state) => state.auth.isOnAuth);
   const isAuthFailed = useSelector((state) => state.auth.isAuthFailed);
   console.log(isAuthFailed);
 
@@ -19,10 +14,10 @@ const BuildLoginForm = () => {
       username: "",
       password: ""
     },
-    onSubmit: ({ username, password }, { setSubmitting }) => {
-      dispatch(fetchAuthData({username, password}))
+    onSubmit: (({ username, password }, { setSubmitting }) => {
+      dispatch(fetchAuthData({username, password}));
       setSubmitting(false);
-    }
+    })
   });
   return (
     <Form onSubmit={formik.handleSubmit}>
@@ -38,7 +33,7 @@ const BuildLoginForm = () => {
           Неверные имя пользователя или пароль
         </Form.Control.Feedback>
       </Form.Group>
-      <Button type="submit">Войти</Button>
+      <Button type="submit" disabled={isOnAuth}>Войти</Button>
     </Form>
   );
 }

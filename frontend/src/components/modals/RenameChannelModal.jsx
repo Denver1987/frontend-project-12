@@ -12,6 +12,17 @@ const BuildRenameChannelModal = () => {
 
   const existingChannels = useSelector((state) => state.channels.channels).map((channel) => channel.name);
 
+  const isOnRenameChannel = useSelector((state) => state.channels.isOnRenameChannel);
+  const renamingChannelId = useSelector((state) => state.channels.renamingChannel);
+  const renamingChannelName = useSelector((state) => state.channels.channels)
+    .reduce((previous, channel) => {
+      console.log(channel.id, renamingChannelId)
+      if (channel.id == renamingChannelId) return previous + channel.name;
+      else return previous;
+    }, '');
+
+  console.log(renamingChannelId, renamingChannelName);
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -25,13 +36,13 @@ const BuildRenameChannelModal = () => {
       .notOneOf(existingChannels, 'Такой канал уже существует')
     }),
     onSubmit: (values) => {
-      dispatch(renameChannel({newChannelName: values.name, channelId: renamingChannel, authToken: getAuthToken()}))
+      dispatch(renameChannel({newChannelName: values.name, channelId: renamingChannelId, authToken: getAuthToken()}))
     }
   });
 
   const [show, setShow] = useState(false);
-  const isOnRenameChannel = useSelector((state) => state.channels.isOnRenameChannel);
-  const renamingChannel = useSelector((state) => state.channels.renamingChannel);
+
+  const isOnSending = useSelector((state) => state.channels.onSending);
 
   useEffect(() => {
     if (isOnRenameChannel) setShow(true);
@@ -49,7 +60,7 @@ const BuildRenameChannelModal = () => {
           <Form.Control
             name="name"
             onChange={formik.handleChange}
-            value= {formik.values.name}
+            value={renamingChannelName}
             type="text"
             placeholder="Введите название..."
             autoFocus
@@ -62,10 +73,10 @@ const BuildRenameChannelModal = () => {
         </Form.Group>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => dispatch(setOnRenameChannel(false))}>
+        <Button variant="secondary" onClick={() => dispatch(setOnRenameChannel(false))} disabled={isOnSending}>
           Отмена
         </Button>
-        <Button variant="primary" onClick={formik.handleSubmit}>
+        <Button variant="primary" onClick={formik.handleSubmit} disabled={isOnSending}>
           Переименовать
         </Button>
       </Modal.Footer>

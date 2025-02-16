@@ -20,9 +20,9 @@ const BuildRegistrationForm = () => {
         password: yup.string().min(6, 'Пароль должен содержать не менее 6 символов'),
         confirm: yup.string().oneOf([yup.ref('password')], 'Пароли должны совпадать'),
       }),
-      onSubmit: (values) => {
+      onSubmit: async (values) => {
         console.log(values);
-        axios.post('/api/v1/signup', { username: values.username, password: values.password }).then((response) => {
+        await axios.post('/api/v1/signup', { username: values.username, password: values.password }).then((response) => {
           console.log(response.status);
           authorize(response.data);
           navigate('/');
@@ -57,7 +57,7 @@ const BuildRegistrationForm = () => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Button variant="primary" type="button" onClick={formik.handleSubmit}>
+      <Button variant="primary" type="button" disabled={formik.isSubmitting} onClick={formik.handleSubmit}>
         Зарегистрироваться
       </Button>
     </Form>

@@ -1,12 +1,25 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
 import { setCurrentChannel, setOnRemoveChannel, setOnRenameChannel } from "../store/slices/channels.js";
+import { useEffect, useRef } from "react";
 
 const BuildChannelBox = () => {
   const dispatch = useDispatch();
   const channels = useSelector((state) => state.channels.channels);
   const currentChannel = useSelector((state) => state.channels.currentChannelId);
-  return <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
+
+  const channelBoxRef = useRef();
+
+  useEffect(() => {
+    if (channelBoxRef.current) {
+      channelBoxRef.current.scrollTo({
+        top: channelBoxRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [channels]);
+
+  return <ul id="channels-box" ref={channelBoxRef} className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
   {channels.map((channel) =>
     (<li key={channel.id}>
       <Dropdown as={ButtonGroup} className="w-100 rounded-0 text-start">

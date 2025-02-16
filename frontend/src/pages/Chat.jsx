@@ -9,6 +9,7 @@ import { fetchMessages } from '../store/slices/messages.js';
 import { RenameChannelModal } from '../components/modals/RenameChannelModal.jsx';
 import { RemoveChannelModal } from '../components/modals/RemoveChannelModal.jsx';
 
+
 const BuildChatPage = () => {
   const dispatch = useDispatch();
   if (getAuthToken() === undefined) {

@@ -63,6 +63,9 @@ const channelsSlice = createSlice({
     renamingChannel: null,
     removingChannel: null,
     onSending: false,
+    isCreateSuccess: false,
+    isRenameSuccess: false,
+    isRemoveSuccess: false
   },
   reducers: {
     setOnAddChannel: (state, action) => {
@@ -93,6 +96,11 @@ const channelsSlice = createSlice({
     removeChannelFromStore: (state, action) => {
       state.channels = state.channels.filter((channel) => channel.id !== action.payload.id);
       if (state.currentChannelId === action.payload.id) state.currentChannelId = settings.defaultChannelId;
+    },
+    resetSuccess: (state) => {
+      state.isCreateSuccess = false;
+      state.isRenameSuccess = false;
+      state.isRemoveSuccess = false;
     }
   },
   extraReducers: (builder) => {
@@ -113,12 +121,14 @@ const channelsSlice = createSlice({
       .addCase(createChannel.pending, (state) => {
         console.log('onAddChannel');
         state.onSending = true;
+        state.isCreateSuccess = false;
       })
       .addCase(createChannel.fulfilled, (state, action) => {
         console.log('channelAdded: ', action.payload);
         state.isOnAddChannel = false;
         state.onSending = false;
         state.currentChannelId = action.payload.id;
+        state.isCreateSuccess = true;
       })
       .addCase(createChannel.rejected, () => {
         console.log('channel add error');
@@ -126,11 +136,13 @@ const channelsSlice = createSlice({
       .addCase(renameChannel.pending, (state) => {
         console.log('onRenameChannel');
         state.onSending = true;
+        state.isRenameSuccess = false;
       })
       .addCase(renameChannel.fulfilled, (state, action) => {
         console.log('channelRenamed: ', action.payload);
         state.isOnRenameChannel = false;
         state.onSending = false;
+        state.isRenameSuccess = true;
       })
       .addCase(renameChannel.rejected, (state) => {
         console.log('channel rename error');
@@ -139,11 +151,13 @@ const channelsSlice = createSlice({
       .addCase(removeChannel.pending, (state) => {
         console.log('onRemoveChannel');
         state.onSending = true;
+        state.isRemoveSuccess = false;
       })
       .addCase(removeChannel.fulfilled, (state, action) => {
         console.log('channelRemove: ', action.payload);
         state.isOnRemoveChannel = false;
         state.onSending = false;
+        state.isRemoveSuccess = true;
       })
       .addCase(removeChannel.rejected, (state) => {
         console.log('channel remove error');
@@ -162,5 +176,6 @@ export const {
   setCurrentChannel,
   addNewChannel,
   renameChannelInStore,
-  removeChannelFromStore
+  removeChannelFromStore,
+  resetSuccess
 } = channelsSlice.actions;

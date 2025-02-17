@@ -63,7 +63,7 @@ const BuildRegistrationForm = () => {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Button variant="primary" type="button" disabled={formik.isSubmitting} onClick={formik.handleSubmit}>
+      <Button variant="primary" type="submit" disabled={formik.isSubmitting} onClick={formik.handleSubmit}>
         {t('register')}
       </Button>
     </Form>

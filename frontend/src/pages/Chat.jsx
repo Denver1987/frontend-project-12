@@ -8,6 +8,7 @@ import { NewChannelModal } from '../components/modals/NewChannelModal.jsx';
 import { fetchMessages } from '../store/slices/messages.js';
 import { RenameChannelModal } from '../components/modals/RenameChannelModal.jsx';
 import { RemoveChannelModal } from '../components/modals/RemoveChannelModal.jsx';
+import { ToastContainer } from 'react-toastify';
 
 
 const BuildChatPage = () => {
@@ -24,6 +25,7 @@ const BuildChatPage = () => {
         <NewChannelModal />
         <RenameChannelModal />
         <RemoveChannelModal />
+        <ToastContainer />
       </div>
     );
   }

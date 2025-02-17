@@ -25,9 +25,9 @@ const BuildChannelBox = () => {
         behavior: 'smooth'
       });
     }
-    // if (isChannelCreated) showToast(t('channelCreated'));
-    // if (isChannelRenamed) showToast(t('channelRenamed'));
-    // if (isChannelRemoved) showToast(t('channelRemoved'));
+    if (isChannelCreated) showToast(t('channelCreated'));
+    if (isChannelRenamed) showToast(t('channelRenamed'));
+    if (isChannelRemoved) showToast(t('channelRemoved'));
     dispatch(resetSuccess());
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channels, isChannelCreated, isChannelRenamed, isChannelRemoved]);
@@ -54,7 +54,7 @@ const BuildChannelBox = () => {
     </li>)
   )}
   </ul>
-  <ToastContainer></ToastContainer>
+  {/* <ToastContainer></ToastContainer> */}
   </>
 }
 

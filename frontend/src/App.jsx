@@ -22,7 +22,7 @@ function App() {
             <Route path="*" element={<Page404 />} />
             <Route path="/" element={<PageChat />} />
             <Route path="/login" element={<PageLogin />} />
-            <Route path="/singup" element={<PageRegister />} />
+            <Route path="/signup" element={<PageRegister />} />
           </Routes>
         </BrowserRouter>
       </ErrorBoundary>

@@ -12,7 +12,6 @@ const BuildLoginForm = () => {
   const isOnAuth = useSelector((state) => state.auth.isOnAuth);
   const isAuthFailed = useSelector((state) => state.auth.isAuthFailed);
   const isNetworkError = useSelector((state) => state.auth.isNetworkError);
-  console.log(isAuthFailed, isNetworkError);
 
   const showToast = (text) => toast.error(text);
 

@@ -39,6 +39,7 @@ const BuildNewChannelModal = () => {
   useEffect(() => {
     if (isOnAddChannel) setShow(true);
     if (!isOnAddChannel) {
+      console.error('Test error')
       setShow(false);
       formik.setErrors({});
     }

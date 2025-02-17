@@ -54,6 +54,7 @@ const BuildNewChannelModal = () => {
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>{t('channelName')}</Form.Label>
             <Form.Control
+              id="name"
               onChange={formik.handleChange}
               name="name"
               values={formik.values.name}
@@ -62,6 +63,7 @@ const BuildNewChannelModal = () => {
               isInvalid={formik.touched.name && formik.errors.name}
               onKeyDown={(event) => {event.key === 'Enter' ? formik.handleSubmit() : null}}
             />
+            <label className="visually-hidden" htmlFor="name">{t('channelName')}</label>
             <Form.Control.Feedback type="invalid" tooltip>
               {formik.errors.name}
             </Form.Control.Feedback>

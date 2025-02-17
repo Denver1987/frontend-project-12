@@ -14,7 +14,7 @@ const BuildChannelBox = () => {
   const isChannelCreated = useSelector((state) => state.channels.isCreateSuccess);
   const isChannelRenamed = useSelector((state) => state.channels.isRenameSuccess);
   const isChannelRemoved = useSelector((state) => state.channels.isRemoveSuccess);
-  const showToast = (text) => toast.success(text);
+  const showToast = (text) => {toast.success(() => <div>{text}</div>) };
 
   const channelBoxRef = useRef();
 

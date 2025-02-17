@@ -25,7 +25,7 @@ const BuildPageLogin = () => {
         <div className="row justify-content-center align-content-center h-100">
           <div className="col-md-8">
             <LoginForm />
-            <p>{t('noacc')} <Nav.Link href="/singup">{t('registration')}</Nav.Link></p>
+            <p>{t('noacc')} <Nav.Link href="/signup">{t('registration')}</Nav.Link></p>
           </div>
         </div>
       </Container>

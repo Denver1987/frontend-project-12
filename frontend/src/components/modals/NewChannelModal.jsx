@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOnAddChannel, createChannel } from '../../store/slices/channels';
@@ -11,21 +11,10 @@ import badWordsFilter from '../../utils/badWordsFilter';
 const BuildNewChannelModal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const inputRef = useRef();
 
   const [show, setShow] = useState(false);
   const isOnAddChannel = useSelector((state) => state.channels.isOnAddChannel);
   const isOnSending = useSelector((state) => state.channels.onSending);
-
-  useEffect(() => {
-    if (isOnAddChannel) {
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
-      setShow(true);
-    }
-    if (!isOnAddChannel) setShow(false);
-  }, [isOnAddChannel]);
 
   const existingChannels = useSelector((state) => state.channels.channels).map((channel) => channel.name);
 
@@ -44,12 +33,20 @@ const BuildNewChannelModal = () => {
     onSubmit: (values, { setSubmitting }) => {
       dispatch(createChannel({newChannelName: badWordsFilter(values.name), authToken: getAuthToken()}));
       setSubmitting(false);
-      console.log(formik.isSubmitting)
     }
   });
 
+  useEffect(() => {
+    if (isOnAddChannel) setShow(true);
+    if (!isOnAddChannel) {
+      setShow(false);
+      formik.setErrors({});
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOnAddChannel]);
+
   return <>
-    <Modal show={show} onHide={() => dispatch(setOnAddChannel(false))}>
+    <Modal show={show} onHide={() => dispatch(setOnAddChannel(false))} autoFocus={false}>
       <Modal.Header closeButton>
         <Modal.Title>{t('createChannel')}</Modal.Title>
       </Modal.Header>
@@ -57,12 +54,11 @@ const BuildNewChannelModal = () => {
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>{t('channelName')}</Form.Label>
             <Form.Control
-              ref={inputRef}
+              // ref={inputRef}
               onChange={formik.handleChange}
               name="name"
               values={formik.values.name}
               type="text"
-              placeholder="Введите название..."
               autoFocus
               isInvalid={formik.touched.name && formik.errors.name}
               onKeyDown={(event) => {event.key === 'Enter' ? formik.handleSubmit() : null}}

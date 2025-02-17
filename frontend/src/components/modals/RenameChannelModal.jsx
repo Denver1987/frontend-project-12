@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,18 +13,17 @@ const BuildRenameChannelModal = () => {
 
   const dispatch = useDispatch();
 
+  const inputRef = useRef();
+
   const existingChannels = useSelector((state) => state.channels.channels).map((channel) => channel.name);
 
   const isOnRenameChannel = useSelector((state) => state.channels.isOnRenameChannel);
   const renamingChannelId = useSelector((state) => state.channels.renamingChannel);
   const renamingChannelName = useSelector((state) => state.channels.channels)
     .reduce((previous, channel) => {
-      console.log(channel.id, renamingChannelId)
       if (channel.id == renamingChannelId) return previous + channel.name;
       else return previous;
     }, '');
-
-  console.log(renamingChannelId, renamingChannelName);
 
   const formik = useFormik({
     initialValues: {
@@ -51,13 +50,14 @@ const BuildRenameChannelModal = () => {
     if (isOnRenameChannel) {
       setShow(true);
       formik.values.name = renamingChannelName;
+      formik.setErrors({});
     }
     if (!isOnRenameChannel) setShow(false);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnRenameChannel]);
 
   return <>
-    <Modal show={show} onHide={() => dispatch(setOnRenameChannel(false, null))}>
+    <Modal show={show} onHide={() => dispatch(setOnRenameChannel(false, null))} autoFocus={false}>
       <Modal.Header closeButton>
         <Modal.Title>{t('renamingChannel')}</Modal.Title>
       </Modal.Header>
@@ -65,12 +65,13 @@ const BuildRenameChannelModal = () => {
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label>{t('newChannelName')}</Form.Label>
           <Form.Control
+            ref={inputRef}
             name="name"
             onChange={formik.handleChange}
             value={formik.values.name}
             type="text"
-            placeholder="Введите название..."
             autoFocus
+            onFocus={(event) => {event.target.select()}}
             isInvalid={formik.touched.name && formik.errors.name}
             onKeyDown={(event) => {event.key === 'Enter' ? formik.handleSubmit() : null}}
           />

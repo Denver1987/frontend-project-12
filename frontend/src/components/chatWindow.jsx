@@ -12,7 +12,6 @@ const BuildChatWindow = () => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const currentChannelName = useSelector((state) => state.channels.channels)
     .reduce((previous, channel) => {
-      console.log(channel.id, currentChannelId)
       if (channel.id == currentChannelId) return previous + channel.name;
       else return previous;
     }, '');
@@ -46,7 +45,6 @@ const BuildChatWindow = () => {
     </Row>
     <NewChannelModal></NewChannelModal>
   </Container>
-
 }
 
 export const ChatWindow = () => BuildChatWindow();

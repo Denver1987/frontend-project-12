@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 const BuildMessageBox = () => {
   const messages = useSelector((state) => state.messages.messages);
   const currentChannel = useSelector((state) => state.channels.currentChannelId);
-  console.log(messages);
 
   const messageBoxRef = useRef();
 

@@ -1,7 +1,7 @@
 import { getAuthToken } from '../utils/login.js';
 import { Navigate } from 'react-router-dom';
-import { NavPanel } from '../components/navPanel.jsx';
-import { ChatWindow } from '../components/chatWindow.jsx';
+import { NavPanel } from '../components/NavPanel.jsx';
+import { ChatWindow } from '../components/ChatWindow.jsx';
 import { useDispatch } from 'react-redux';
 import { fetchChannels } from '../store/slices/channels.js';
 import { NewChannelModal } from '../components/modals/NewChannelModal.jsx';

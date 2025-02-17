@@ -1,4 +1,4 @@
-import { NavPanel } from '../components/navPanel.jsx'
+import { NavPanel } from '../components/NavPanel.jsx'
 
 const BuildNotExistPage = () => (
     <>

@@ -3,7 +3,7 @@ import { NewChannelButton } from "./buttons/NewChannelButton";
 import { NewChannelModal } from "./modals/NewChannelModal";
 import { MessageInputForm } from "./MessageInputForm";
 import { MessageBox } from "./MessageBox";
-import { ChannelBox } from "./channelBox";
+import { ChannelBox } from "./СhannelBox";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 

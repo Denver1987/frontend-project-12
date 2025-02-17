@@ -1,5 +1,5 @@
 import { Nav, Button, Container } from "react-bootstrap";
-import { loguot, isAuthenticated } from "../utils/login";
+import { loguot, isAuthenticated } from "../utils/login.js";
 import { useNavigate } from "react-router-dom";
 import { removeAuthData } from "../store/slices/auth.js";
 import { useDispatch } from "react-redux";

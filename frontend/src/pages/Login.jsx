@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { NavPanel } from '../components/navPanel.jsx';
+import { NavPanel } from '../components/NavPanel.jsx';
 import { Nav, Container } from 'react-bootstrap';
 import { LoginForm } from '../components/LoginForm.jsx';
 import { useEffect } from 'react';

@@ -1,4 +1,4 @@
-import { NavPanel } from "../components/navPanel.jsx";
+import { NavPanel } from "../components/NavPanel.jsx";
 import { Container } from "react-bootstrap";
 import { RegistrationForm } from "../components/RegistrationForm.jsx";
 //import * as yup from 'yup';

@@ -38,7 +38,7 @@ const resources = {
       "newChannelName": "Новое название канала",
       "channelexist": "Такой канал уже существует",
       "createChannel": "Создание нового канала",
-      "channelName": "Название нового канала",
+      "channelName": "Имя канала",
       "sure": "Уверены?",
       "exit": "Выйти",
       "userexist": "Такой пользователь уже существует",

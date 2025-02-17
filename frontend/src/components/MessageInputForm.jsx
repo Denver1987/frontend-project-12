@@ -4,6 +4,7 @@ import { sendMessage } from "../store/slices/messages";
 import { getAuthToken, getCurrentUser } from "../utils/login";
 import { useFormik } from "formik";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import badWordsFilter from "../utils/badWordsFilter";
 
 const BuildMessageInputForm = () => {
@@ -11,6 +12,7 @@ const BuildMessageInputForm = () => {
   const isOnSending = useSelector((state) => state.messages.onSending);
   const dispatch = useDispatch();
   const inputRef = useRef();
+  const {t} = useTranslation();
 
   const formik = useFormik({
     initialValues: {
@@ -32,7 +34,8 @@ const BuildMessageInputForm = () => {
     <Form onSubmit={formik.handleSubmit}>
       <InputGroup className="mb-3">
         <Form.Control ref={inputRef}
-          placeholder="Новое сообщение"
+          placeholder={t('newMessage')}
+          aria-label={t('newMessage')}
           name="message"
           onChange={formik.handleChange}
           autoFocus

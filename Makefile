@@ -7,11 +7,12 @@ install:
 start-frontend:
 	make -C frontend start
 
-start-backend:
+start:
 	npm run start
 
 develop:
-	make start-backend & make -C frontend dev
+	make start & make -C frontend dev
 
 build:
+	rm -rf frontend/dist
 	make -C frontend build

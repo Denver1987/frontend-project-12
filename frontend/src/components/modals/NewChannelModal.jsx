@@ -54,7 +54,6 @@ const BuildNewChannelModal = () => {
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>{t('channelName')}</Form.Label>
             <Form.Control
-              ref={inputRef}
               onChange={formik.handleChange}
               name="name"
               values={formik.values.name}

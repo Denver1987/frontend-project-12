@@ -6,6 +6,7 @@ import { getAuthToken } from '../../utils/login';
 import * as yup from "yup";
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import badWordsFilter from '../../utils/badWordsFilter';
 
 const BuildNewChannelModal = () => {
   const { t } = useTranslation();
@@ -18,8 +19,10 @@ const BuildNewChannelModal = () => {
 
   useEffect(() => {
     if (isOnAddChannel) {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
       setShow(true);
-      //inputRef.current.focus();
     }
     if (!isOnAddChannel) setShow(false);
   }, [isOnAddChannel]);
@@ -39,7 +42,7 @@ const BuildNewChannelModal = () => {
       .notOneOf(existingChannels, t('channelexist'))
     }),
     onSubmit: (values, { setSubmitting }) => {
-      dispatch(createChannel({newChannelName: values.name, authToken: getAuthToken()}));
+      dispatch(createChannel({newChannelName: badWordsFilter(values.name), authToken: getAuthToken()}));
       setSubmitting(false);
       console.log(formik.isSubmitting)
     }

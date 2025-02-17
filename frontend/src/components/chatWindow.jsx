@@ -7,7 +7,6 @@ import { ChannelBox } from "./channelBox";
 import { useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 
-
 const BuildChatWindow = () => {
   const {t} = useTranslation();
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);

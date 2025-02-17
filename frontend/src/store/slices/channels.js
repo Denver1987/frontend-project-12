@@ -95,7 +95,7 @@ const channelsSlice = createSlice({
     },
     removeChannelFromStore: (state, action) => {
       state.channels = state.channels.filter((channel) => channel.id !== action.payload.id);
-      if (state.currentChannelId === action.payload.id) state.currentChannelId = settings.defaultChannelId;
+      if (state.currentChannelId === action.payload.id) state.currentChannelId = settings.getDefaultChannelId();
     },
     resetSuccess: (state) => {
       state.isCreateSuccess = false;

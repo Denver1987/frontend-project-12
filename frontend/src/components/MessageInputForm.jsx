@@ -4,6 +4,7 @@ import { sendMessage } from "../store/slices/messages";
 import { getAuthToken, getCurrentUser } from "../utils/login";
 import { useFormik } from "formik";
 import { useRef } from "react";
+import badWordsFilter from "../utils/badWordsFilter";
 
 const BuildMessageInputForm = () => {
   const currentChannel = useSelector((state) => state.channels.currentChannelId);
@@ -11,23 +12,22 @@ const BuildMessageInputForm = () => {
   const dispatch = useDispatch();
   const inputRef = useRef();
 
-
   const formik = useFormik({
     initialValues: {
       message: ''
     },
     onSubmit: async () => {
       if (newMessage.body)
-      dispatch(sendMessage({message: newMessage, authToken: getAuthToken()})).then(
-        () => {
+      dispatch(sendMessage({message: newMessage, authToken: getAuthToken()}));
+
           inputRef.current.value = '';
           formik.resetForm();
           inputRef.current.focus();
-        })
+
     }
   });
 
-  const newMessage = { body: formik.values.message, channelId: currentChannel, username: getCurrentUser() };
+  const newMessage = { body: badWordsFilter(formik.values.message), channelId: currentChannel, username: getCurrentUser() };
   return (<>
     <Form onSubmit={formik.handleSubmit}>
       <InputGroup className="mb-3">

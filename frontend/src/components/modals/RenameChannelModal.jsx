@@ -6,6 +6,7 @@ import { setOnRenameChannel, renameChannel } from '../../store/slices/channels';
 import { getAuthToken } from '../../utils/login';
 import * as yup from "yup";
 import { useTranslation } from 'react-i18next';
+import badWordsFilter from '../../utils/badWordsFilter';
 
 const BuildRenameChannelModal = () => {
   const { t } = useTranslation();
@@ -38,7 +39,7 @@ const BuildRenameChannelModal = () => {
       .notOneOf(existingChannels, t('channelExist'))
     }),
     onSubmit: (values) => {
-      dispatch(renameChannel({newChannelName: values.name, channelId: renamingChannelId, authToken: getAuthToken()}))
+      dispatch(renameChannel({newChannelName: badWordsFilter(values.name), channelId: renamingChannelId, authToken: getAuthToken()}))
     }
   });
 

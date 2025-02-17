@@ -5,7 +5,7 @@ import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux';
 import store from './store/index.js';
-import './WebSocket/socket.js';
+import './WebSocket/socket';
 import './i18n/translation.js';
 
 createRoot(document.getElementById('root')).render(

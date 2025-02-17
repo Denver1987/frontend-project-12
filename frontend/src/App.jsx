@@ -7,20 +7,16 @@ import { Provider, ErrorBoundary } from '@rollbar/react';
 import './App.css';
 
 const rollbarConfig = {
-  accessToken: 'POST_CLIENT_ITEM_ACCESS_TOKEN',
+  accessToken: '74a9b8c4a3ec43a48ae5d110670c29ba',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
   environment: 'production',
 };
-
-function TestError() {
-  const a = null;
-  return a.hello();
-}
 
 function App() {
   return (
     <Provider config={rollbarConfig}>
       <ErrorBoundary>
-        <TestError />
         <BrowserRouter>
           <Routes>
             <Route path="*" element={<Page404 />} />

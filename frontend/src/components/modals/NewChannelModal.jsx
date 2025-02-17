@@ -39,7 +39,6 @@ const BuildNewChannelModal = () => {
   useEffect(() => {
     if (isOnAddChannel) setShow(true);
     if (!isOnAddChannel) {
-      console.error('Test error')
       setShow(false);
       formik.setErrors({});
     }
@@ -55,7 +54,7 @@ const BuildNewChannelModal = () => {
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>{t('channelName')}</Form.Label>
             <Form.Control
-              // ref={inputRef}
+              ref={inputRef}
               onChange={formik.handleChange}
               name="name"
               values={formik.values.name}

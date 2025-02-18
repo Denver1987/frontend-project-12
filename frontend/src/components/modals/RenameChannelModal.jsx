@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,8 +12,6 @@ const BuildRenameChannelModal = () => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-
-  //const inputRef = useRef();
 
   const existingChannels = useSelector((state) => state.channels.channels).map((channel) => channel.name);
 

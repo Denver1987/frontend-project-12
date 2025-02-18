@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Dropdown } from "react-bootstrap";
 import { setCurrentChannel, setOnRemoveChannel, setOnRenameChannel, resetSuccess } from "../store/slices/channels.js";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 
 const BuildChannelBox = () => {

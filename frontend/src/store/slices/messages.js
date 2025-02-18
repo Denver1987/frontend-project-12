@@ -46,26 +46,18 @@ const messagesSlice = createSlice({
           (message) => message.channelId !== action.payload.id,
         );
       })
-      .addCase(fetchMessages.pending, () => {
-        console.log('onMessagesFetch');
-      })
       .addCase(fetchMessages.fulfilled, (state, action) => {
-        console.log('messages: ', action.payload);
         state.messages = action.payload;
       })
       .addCase(fetchMessages.rejected, () => {
-        console.log('messages fetch error');
       })
       .addCase(sendMessage.pending, (state) => {
-        console.log('onMessagesSend');
         state.onSending = true;
       })
-      .addCase(sendMessage.fulfilled, (state, action) => {
-        console.log('messages: ', action.payload);
+      .addCase(sendMessage.fulfilled, (state) => {
         state.onSending = false;
       })
       .addCase(sendMessage.rejected, (state) => {
-        console.log('messages send error');
         state.onSending = false;
       });
   },

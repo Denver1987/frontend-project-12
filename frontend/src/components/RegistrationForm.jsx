@@ -26,18 +26,15 @@ const BuildRegistrationForm = () => {
       confirm: yup.string().oneOf([yup.ref('password')], t('passnotconf')),
     }),
     onSubmit: async (values) => {
-      console.log(values);
       await axios.post(routes.getSignupRoute(), {
         username: values.username,
         password: values.password,
       })
         .then((response) => {
-          console.log(response.status);
           setRegFailed(false);
           authorize(response.data);
           navigate('/');
-        }).catch((response) => {
-          console.log(response.status);
+        }).catch(() => {
           setRegFailed(true);
         });
     },

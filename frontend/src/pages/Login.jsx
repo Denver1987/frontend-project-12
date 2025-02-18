@@ -11,9 +11,7 @@ const BuildPageLogin = () => {
   const navigate = useNavigate();
   const authToken = useSelector((state) => state.auth.authToken);
   useEffect(() => {
-    console.log('LoginPageUseEffectRun');
     if (authToken) {
-      console.log('authTokenChange', authToken);
       navigate('/');
     }
   });

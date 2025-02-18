@@ -7,7 +7,6 @@ import routes from '../../utils/routes.js';
 export const fetchAuthData = createAsyncThunk(
   'auth/fetchAuthData',
   async ({ username, password }) => {
-    console.log(username, password);
     const response = await axios.post(routes.getLoginRoute(), { username, password });
     return response.data;
   },
@@ -36,10 +35,8 @@ const authSlice = createSlice({
     builder
       .addCase(fetchAuthData.pending, (state) => {
         state.isOnAuth = true;
-        console.log('onAuthFetch');
       })
       .addCase(fetchAuthData.fulfilled, (state, action) => {
-        console.log(action.payload);
         const { token, username } = action.payload;
         authorize(action.payload);
         state.authToken = token;
@@ -48,7 +45,6 @@ const authSlice = createSlice({
         state.isOnAuth = false;
       })
       .addCase(fetchAuthData.rejected, (state, action) => {
-        console.log(action);
         if (action.error.code === 'ERR_BAD_REQUEST') {
           state.isAuthFailed = true;
           state.isOnAuth = false;

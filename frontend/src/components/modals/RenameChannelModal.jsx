@@ -13,7 +13,7 @@ const BuildRenameChannelModal = () => {
 
   const dispatch = useDispatch();
 
-  const inputRef = useRef();
+  //const inputRef = useRef();
 
   const existingChannels = useSelector((state) => state.channels.channels).map((channel) => channel.name);
 
@@ -65,7 +65,7 @@ const BuildRenameChannelModal = () => {
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label>{t('channelName')}</Form.Label>
           <Form.Control
-            ref={inputRef}
+
             id="name"
             name="name"
             onChange={formik.handleChange}

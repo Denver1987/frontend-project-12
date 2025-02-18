@@ -25,8 +25,8 @@ const BuildLoginForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      password: ""
+      username: '',
+      password: ''
     },
     onSubmit: (({ username, password }, { setSubmitting }) => {
       dispatch(fetchAuthData({username, password}));

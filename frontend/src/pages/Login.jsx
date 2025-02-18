@@ -18,7 +18,7 @@ const BuildPageLogin = () => {
     }
   });
 
-  return (
+  return (<>
     <div className="d-flex flex-column h-100">
       <NavPanel></NavPanel>
       <Container className="h-100">
@@ -29,7 +29,7 @@ const BuildPageLogin = () => {
           </div>
         </div>
       </Container>
-    </div>
+    </div></>
   );
 }
 

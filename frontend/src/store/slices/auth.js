@@ -1,7 +1,7 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { authorize, getAuthToken, getCurrentUser } from '../../utils/login.js';
 import axios from 'axios';
-
+import { authorize, getAuthToken, getCurrentUser } from '../../utils/login.js';
 
 export const fetchAuthData = createAsyncThunk(
   'auth/fetchAuthData',
@@ -9,11 +9,11 @@ export const fetchAuthData = createAsyncThunk(
     console.log(username, password);
     const response = await axios.post('api/v1/login', { username, password });
     return response.data;
-  }
+  },
 );
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState: {
     authToken: getAuthToken(),
     username: getCurrentUser(),
@@ -29,14 +29,13 @@ const authSlice = createSlice({
     },
     resetNetworkError: (state) => {
       state.isNetworkError = false;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAuthData.pending, (state) => {
         state.isOnAuth = true;
         console.log('onAuthFetch');
-
       })
       .addCase(fetchAuthData.fulfilled, (state, action) => {
         console.log(action.payload);
@@ -56,8 +55,8 @@ const authSlice = createSlice({
           state.isNetworkError = true;
         }
         state.isOnAuth = false;
-      })
-  }
+      });
+  },
 });
 
 export default authSlice.reducer;

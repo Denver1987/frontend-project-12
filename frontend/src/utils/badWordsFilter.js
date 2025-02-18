@@ -1,4 +1,4 @@
-import  filter from 'leo-profanity';
+import filter from 'leo-profanity';
 import settings from '../settings/settings.js';
 
 export default function badWordsFilter(string) {

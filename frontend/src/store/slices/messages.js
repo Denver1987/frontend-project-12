@@ -1,49 +1,50 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { removeChannelFromStore } from './channels';
 import axios from 'axios';
+import { removeChannelFromStore } from './channels';
 
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
-  async ({authToken}) => {
+  async ({ authToken }) => {
     const response = await axios.get('api/v1/messages', {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
     });
     return response.data;
-  }
+  },
 );
 
 export const sendMessage = createAsyncThunk(
   'messages/sendMessage',
-  async ({message, authToken}) => {
+  async ({ message, authToken }) => {
     const response = await axios.post('api/v1/messages', message, {
       headers: {
         Authorization: `Bearer ${authToken}`,
-      }
+      },
     });
     return response.data;
-  }
+  },
 );
 
 const messagesSlice = createSlice({
   name: 'messages',
   initialState: {
     messages: [],
-    onSending: false
+    onSending: false,
   },
   reducers: {
     addNewMessage: (state, action) => {
       state.messages.push(action.payload);
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
-    .addCase(removeChannelFromStore, (state, action) => {
-
-      state.messages = state.messages.filter((message) => message.channelId !== action.payload.id);
-
-    })
+      .addCase(removeChannelFromStore, (state, action) => {
+        state.messages = state.messages.filter(
+          (message) => message.channelId !== action.payload.id,
+        );
+      })
       .addCase(fetchMessages.pending, () => {
         console.log('onMessagesFetch');
       })
@@ -65,12 +66,10 @@ const messagesSlice = createSlice({
       .addCase(sendMessage.rejected, (state) => {
         console.log('messages send error');
         state.onSending = false;
-      })
-  }
+      });
+  },
 });
 
 export default messagesSlice.reducer;
 
 export const { addNewMessage } = messagesSlice.actions;
-
-

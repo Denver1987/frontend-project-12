@@ -1,35 +1,36 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable no-param-reassign */
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-//import { getAuthToken, getCurrentUser } from '../../utils/login.js';
 import axios from 'axios';
 import settings from '../../settings/settings';
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
-  async ({authToken}) => {
+  async ({ authToken }) => {
     const response = await axios.get('api/v1/channels', {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
     });
     return response.data;
-  }
+  },
 );
 
 export const createChannel = createAsyncThunk(
   'channels/addChannel',
-  async ({newChannelName, authToken}) => {
+  async ({ newChannelName, authToken }) => {
     const response = await axios.post('/api/v1/channels', { name: newChannelName }, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
     });
     return response.data;
-  }
+  },
 );
 
 export const renameChannel = createAsyncThunk(
   'channels/renameChannel',
-  async ({newChannelName, channelId, authToken}) => {
+  async ({ newChannelName, channelId, authToken }) => {
     const response = await axios.patch(`/api/v1/channels/${channelId}`, { name: newChannelName }, {
       headers: {
         Authorization: `Bearer ${authToken}`,
@@ -37,19 +38,19 @@ export const renameChannel = createAsyncThunk(
     });
     console.log(response.data);
     return response.data;
-  }
+  },
 );
 
 export const removeChannel = createAsyncThunk(
   'channels/removeChannel',
-  async ({ removeChannelId, authToken}) => {
+  async ({ removeChannelId, authToken }) => {
     const response = await axios.delete(`/api/v1/channels/${removeChannelId}`, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
     });
     return response.data;
-  }
+  },
 );
 
 const channelsSlice = createSlice({
@@ -65,7 +66,7 @@ const channelsSlice = createSlice({
     onSending: false,
     isCreateSuccess: false,
     isRenameSuccess: false,
-    isRemoveSuccess: false
+    isRemoveSuccess: false,
   },
   reducers: {
     setOnAddChannel: (state, action) => {
@@ -75,7 +76,6 @@ const channelsSlice = createSlice({
       console.log(action);
       state.renamingChannel = action.payload.channelId;
       state.isOnRenameChannel = action.payload.isOn;
-
     },
     setOnRemoveChannel: (state, action) => {
       console.log(action.payload);
@@ -95,19 +95,18 @@ const channelsSlice = createSlice({
     },
     removeChannelFromStore: (state, action) => {
       state.channels = state.channels.filter((channel) => channel.id !== action.payload.id);
-      if (state.currentChannelId === action.payload.id) state.currentChannelId = settings.getDefaultChannelId();
+      if (state.currentChannelId === action.payload.id) {
+        state.currentChannelId = settings.getDefaultChannelId();
+      }
     },
     resetSuccess: (state) => {
       state.isCreateSuccess = false;
       state.isRenameSuccess = false;
       state.isRemoveSuccess = false;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(removeChannelFromStore, (state, action) => {
-        console.log('remove channel' + action.payload.id + ' from store');
-      })
       .addCase(fetchChannels.pending, () => {
         console.log('onChannelsFetch');
       })
@@ -162,9 +161,8 @@ const channelsSlice = createSlice({
       .addCase(removeChannel.rejected, (state) => {
         console.log('channel remove error');
         state.onSending = false;
-      })
-
-  }
+      });
+  },
 });
 
 export default channelsSlice.reducer;
@@ -177,5 +175,5 @@ export const {
   addNewChannel,
   renameChannelInStore,
   removeChannelFromStore,
-  resetSuccess
+  resetSuccess,
 } = channelsSlice.actions;

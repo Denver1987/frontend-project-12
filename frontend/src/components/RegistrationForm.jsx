@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { authorize } from '../utils/login';
+import routes from '../utils/routes.js';
 
 const BuildRegistrationForm = () => {
   const { t } = useTranslation();
@@ -26,15 +27,19 @@ const BuildRegistrationForm = () => {
     }),
     onSubmit: async (values) => {
       console.log(values);
-      await axios.post('/api/v1/signup', { username: values.username, password: values.password }).then((response) => {
-        console.log(response.status);
-        setRegFailed(false);
-        authorize(response.data);
-        navigate('/');
-      }).catch((response) => {
-        console.log(response.status);
-        setRegFailed(true);
-      });
+      await axios.post(routes.getSignupRoute(), {
+        username: values.username,
+        password: values.password,
+      })
+        .then((response) => {
+          console.log(response.status);
+          setRegFailed(false);
+          authorize(response.data);
+          navigate('/');
+        }).catch((response) => {
+          console.log(response.status);
+          setRegFailed(true);
+        });
     },
   });
   return (

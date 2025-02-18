@@ -2,11 +2,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { removeChannelFromStore } from './channels';
+import routes from '../../utils/routes';
 
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
   async ({ authToken }) => {
-    const response = await axios.get('api/v1/messages', {
+    const response = await axios.get(routes.getMessageRoute(), {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
@@ -18,7 +19,7 @@ export const fetchMessages = createAsyncThunk(
 export const sendMessage = createAsyncThunk(
   'messages/sendMessage',
   async ({ message, authToken }) => {
-    const response = await axios.post('api/v1/messages', message, {
+    const response = await axios.post(routes.getMessageRoute(), message, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },

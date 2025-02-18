@@ -2,12 +2,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { authorize, getAuthToken, getCurrentUser } from '../../utils/login.js';
+import routes from '../../utils/routes.js';
 
 export const fetchAuthData = createAsyncThunk(
   'auth/fetchAuthData',
   async ({ username, password }) => {
     console.log(username, password);
-    const response = await axios.post('api/v1/login', { username, password });
+    const response = await axios.post(routes.getLoginRoute(), { username, password });
     return response.data;
   },
 );

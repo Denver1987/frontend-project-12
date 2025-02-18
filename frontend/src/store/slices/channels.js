@@ -3,11 +3,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import settings from '../../settings/settings';
+import routes from '../../utils/routes';
 
 export const fetchChannels = createAsyncThunk(
   'channels/fetchChannels',
   async ({ authToken }) => {
-    const response = await axios.get('api/v1/channels', {
+    const response = await axios.get(routes.getChannelRoute(), {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
@@ -19,7 +20,7 @@ export const fetchChannels = createAsyncThunk(
 export const createChannel = createAsyncThunk(
   'channels/addChannel',
   async ({ newChannelName, authToken }) => {
-    const response = await axios.post('/api/v1/channels', { name: newChannelName }, {
+    const response = await axios.post(routes.getChannelRoute(), { name: newChannelName }, {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },
@@ -31,11 +32,15 @@ export const createChannel = createAsyncThunk(
 export const renameChannel = createAsyncThunk(
   'channels/renameChannel',
   async ({ newChannelName, channelId, authToken }) => {
-    const response = await axios.patch(`/api/v1/channels/${channelId}`, { name: newChannelName }, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
+    const response = await axios.patch(
+      routes.getChannelRoute(channelId),
+      { name: newChannelName },
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
       },
-    });
+    );
     console.log(response.data);
     return response.data;
   },
@@ -44,7 +49,7 @@ export const renameChannel = createAsyncThunk(
 export const removeChannel = createAsyncThunk(
   'channels/removeChannel',
   async ({ removeChannelId, authToken }) => {
-    const response = await axios.delete(`/api/v1/channels/${removeChannelId}`, {
+    const response = await axios.delete(routes.getChannelRoute(removeChannelId), {
       headers: {
         Authorization: `Bearer ${authToken}`,
       },

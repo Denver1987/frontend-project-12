@@ -55,7 +55,7 @@ const BuildNewChannelModal = () => {
         <Modal.Title>{t('createChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Group className="mb-3">
           <Form.Label>{t('channelName')}</Form.Label>
           <Form.Control
             id="name"

@@ -65,7 +65,7 @@ const BuildRenameChannelModal = () => {
         <Modal.Title>{t('renamingChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+        <Form.Group className="mb-3">
           <Form.Control
             id="name"
             name="name"

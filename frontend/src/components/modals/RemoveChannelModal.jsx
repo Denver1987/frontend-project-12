@@ -1,11 +1,11 @@
-import { Modal, Button } from "react-bootstrap";
-import { useDispatch, useSelector} from "react-redux";
-import { useEffect, useState } from "react";
-import { removeChannel, setOnRemoveChannel } from "../../store/slices/channels";
-import { getAuthToken } from "../../utils/login";
-import { useTranslation } from "react-i18next";
+import { Modal, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { removeChannel, setOnRemoveChannel } from '../../store/slices/channels';
+import { getAuthToken } from '../../utils/login';
 
-export const BuildRemoveChannelModal = () => {
+const BuildRemoveChannelModal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -20,7 +20,7 @@ export const BuildRemoveChannelModal = () => {
     if (!isOnRemoveChannel) setShow(false);
   }, [isOnRemoveChannel]);
 
-  return <>
+  return (
     <Modal show={show} onHide={() => dispatch(setOnRemoveChannel(false, null))}>
       <Modal.Header closeButton>
         <Modal.Title>{t('removingChannel')}</Modal.Title>
@@ -28,14 +28,25 @@ export const BuildRemoveChannelModal = () => {
       <Modal.Body>{t('sure')}</Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" disabled={isOnSending} onClick={() => dispatch(setOnRemoveChannel(false, null))}>
-        {t('cancel')}
+          {t('cancel')}
         </Button>
-        <Button variant="danger" disabled={isOnSending} onClick={() => {dispatch(removeChannel({removeChannelId: removingChannel, authToken: getAuthToken()}))}}>
-        {t('remove')}
+        <Button
+          variant="danger"
+          disabled={isOnSending}
+          onClick={() => {
+            dispatch(removeChannel({
+              removeChannelId: removingChannel,
+              authToken: getAuthToken(),
+            }));
+          }}
+        >
+          {t('remove')}
         </Button>
       </Modal.Footer>
     </Modal>
-  </>
-}
+  );
+};
 
-export const RemoveChannelModal = () => BuildRemoveChannelModal();
+export default function RemoveChannelModal() {
+  return BuildRemoveChannelModal();
+}

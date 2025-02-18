@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
+import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
 import { setOnRenameChannel, renameChannel } from '../../store/slices/channels';
 import { getAuthToken } from '../../utils/login';
-import * as yup from "yup";
-import { useTranslation } from 'react-i18next';
 import badWordsFilter from '../../utils/badWordsFilter';
 
 const BuildRenameChannelModal = () => {
@@ -13,14 +13,15 @@ const BuildRenameChannelModal = () => {
 
   const dispatch = useDispatch();
 
-  const existingChannels = useSelector((state) => state.channels.channels).map((channel) => channel.name);
+  const existingChannels = useSelector((state) => state.channels.channels)
+    .map((channel) => channel.name);
 
   const isOnRenameChannel = useSelector((state) => state.channels.isOnRenameChannel);
   const renamingChannelId = useSelector((state) => state.channels.renamingChannel);
   const renamingChannelName = useSelector((state) => state.channels.channels)
     .reduce((previous, channel) => {
-      if (channel.id == renamingChannelId) return previous + channel.name;
-      else return previous;
+      if (channel.id === renamingChannelId) return previous + channel.name;
+      return previous;
     }, '');
 
   const formik = useFormik({
@@ -29,15 +30,19 @@ const BuildRenameChannelModal = () => {
     },
     validationSchema: yup.object().shape({
       name: yup
-      .string()
-      .min(3, t('3-20symb'))
-      .max(20, t('3-20symb'))
-      .required(t('required'))
-      .notOneOf(existingChannels, t('channelExist'))
+        .string()
+        .min(3, t('3-20symb'))
+        .max(20, t('3-20symb'))
+        .required(t('required'))
+        .notOneOf(existingChannels, t('channelExist')),
     }),
     onSubmit: (values) => {
-      dispatch(renameChannel({newChannelName: badWordsFilter(values.name), channelId: renamingChannelId, authToken: getAuthToken()}))
-    }
+      dispatch(renameChannel({
+        newChannelName: badWordsFilter(values.name),
+        channelId: renamingChannelId,
+        authToken: getAuthToken(),
+      }));
+    },
   });
 
   const [show, setShow] = useState(false);
@@ -54,7 +59,7 @@ const BuildRenameChannelModal = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOnRenameChannel]);
 
-  return <>
+  return (
     <Modal show={show} onHide={() => dispatch(setOnRenameChannel(false, null))} autoFocus={false}>
       <Modal.Header closeButton>
         <Modal.Title>{t('renamingChannel')}</Modal.Title>
@@ -68,9 +73,9 @@ const BuildRenameChannelModal = () => {
             value={formik.values.name}
             type="text"
             autoFocus
-            onFocus={(event) => {event.target.select()}}
+            onFocus={(event) => { event.target.select(); }}
             isInvalid={formik.touched.name && formik.errors.name}
-            onKeyDown={(event) => {event.key === 'Enter' ? formik.handleSubmit() : null}}
+            onKeyDown={(event) => { if (event.key === 'Enter')formik.handleSubmit(); }}
           />
           <label className="visually-hidden" htmlFor="name">{t('channelName')}</label>
           <Form.Control.Feedback type="invalid" tooltip>
@@ -87,7 +92,9 @@ const BuildRenameChannelModal = () => {
         </Button>
       </Modal.Footer>
     </Modal>
-  </>
-}
+  );
+};
 
-export const RenameChannelModal = (props) => BuildRenameChannelModal(props);
+export default function RenameChannelModal(props) {
+  return BuildRenameChannelModal(props);
+}

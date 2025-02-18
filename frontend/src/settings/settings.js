@@ -11,4 +11,4 @@ export default {
   getBadWordLanguages() {
     return this.badWords.languages;
   },
-}
+};

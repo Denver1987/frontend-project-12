@@ -63,7 +63,6 @@ const BuildRenameChannelModal = () => {
       </Modal.Header>
       <Modal.Body>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>{t('channelName')}</Form.Label>
           <Form.Control
             id="name"
             name="name"
@@ -75,7 +74,7 @@ const BuildRenameChannelModal = () => {
             isInvalid={formik.touched.name && formik.errors.name}
             onKeyDown={(event) => {event.key === 'Enter' ? formik.handleSubmit() : null}}
           />
-          {/* <label className="visually-hidden" htmlFor="name">{t('channelName')}</label> */}
+          <label className="visually-hidden" htmlFor="name">{t('channelName')}</label>
           <Form.Control.Feedback type="invalid" tooltip>
             {formik.errors.name}
           </Form.Control.Feedback>
